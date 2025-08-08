@@ -1,13 +1,47 @@
 import { FaSearch, FaMapMarkerAlt, FaBriefcase } from 'react-icons/fa';
-
-const popularRoles = [
-  'Java Full Stack Developer', 'Frontend Developer', 'Data Scientist', 'Product Manager', 'UX Designer', 'DevOps Engineer'
-];
-const trendingLocations = ['Chennai', 'Bangalore', 'Mumbai', 'Delhi', 'Hyderabad', 'Pune'];
+import { useState, useEffect } from 'react';
 
 export default function JobSearchForm({
-  role, setRole, location, setLocation, searchJobs
+  role, setRole, location, setLocation, searchJobs, loading
 }: any) {
+  const [popularRoles, setPopularRoles] = useState<string[]>([]);
+  const [trendingLocations, setTrendingLocations] = useState<string[]>([]);
+  const [dataLoading, setDataLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPopularData = async () => {
+      try {
+        const response = await fetch('/api/popular-data');
+        const data = await response.json();
+        setPopularRoles(data.popularRoles || []);
+        setTrendingLocations(data.trendingLocations || []);
+      } catch (error) {
+        console.error('Failed to fetch popular data:', error);
+        // Fallback to static data
+        setPopularRoles([
+          'Java Full Stack Developer', 
+          'Frontend Developer', 
+          'Data Scientist', 
+          'Product Manager', 
+          'UX Designer', 
+          'DevOps Engineer'
+        ]);
+        setTrendingLocations([
+          'Chennai', 
+          'Bangalore', 
+          'Mumbai', 
+          'Delhi', 
+          'Hyderabad', 
+          'Pune'
+        ]);
+      } finally {
+        setDataLoading(false);
+      }
+    };
+
+    fetchPopularData();
+  }, []);
+
   return (
     <form
       onSubmit={searchJobs}
@@ -40,8 +74,10 @@ export default function JobSearchForm({
         }}
       />
       <div style={{ marginBottom: '20px' }}>
-        <span style={{ fontSize: '14px', marginRight: '8px', opacity: 0.8 }}>Popular Roles:</span>
-        {popularRoles.map((r) => (
+        <span style={{ fontSize: '14px', marginRight: '8px', opacity: 0.8 }}>
+          {dataLoading ? 'Loading Popular Roles...' : 'Popular Roles:'}
+        </span>
+        {!dataLoading && popularRoles.map((r) => (
           <button
             key={r} type="button"
             onClick={() => setRole(r)}
@@ -52,7 +88,14 @@ export default function JobSearchForm({
               border: 'none',
               borderRadius: '12px',
               color: '#fff',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.background = 'rgba(255,255,255,0.2)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
             }}
           >{r}</button>
         ))}
@@ -77,8 +120,10 @@ export default function JobSearchForm({
         }}
       />
       <div style={{ marginBottom: '20px' }}>
-        <span style={{ fontSize: '14px', marginRight: '8px', opacity: 0.8 }}>Trending Locations:</span>
-        {trendingLocations.map((loc) => (
+        <span style={{ fontSize: '14px', marginRight: '8px', opacity: 0.8 }}>
+          {dataLoading ? 'Loading Trending Locations...' : 'Trending Locations:'}
+        </span>
+        {!dataLoading && trendingLocations.map((loc) => (
           <button
             key={loc} type="button"
             onClick={() => setLocation(loc)}
@@ -86,14 +131,24 @@ export default function JobSearchForm({
               margin: '4px',
               padding: '6px 12px',
               background: 'rgba(0,200,255,0.2)',
-              border: 'none', borderRadius: '12px',
-              color: '#fff', cursor: 'pointer'
+              border: 'none', 
+              borderRadius: '12px',
+              color: '#fff', 
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.background = 'rgba(0,200,255,0.3)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.background = 'rgba(0,200,255,0.2)';
             }}
           >{loc}</button>
         ))}
       </div>
       <button
         type="submit"
+        disabled={loading}
         style={{
           width: '100%',
           padding: '14px',
@@ -101,10 +156,16 @@ export default function JobSearchForm({
           fontWeight: 'bold',
           border: 'none',
           borderRadius: '8px',
-          background: 'linear-gradient(90deg, #ff0080, #ff4d4d)',
-          color: '#fff', cursor: 'pointer'
+          background: loading 
+            ? 'rgba(255,255,255,0.3)' 
+            : 'linear-gradient(90deg, #ff0080, #ff4d4d)',
+          color: '#fff', 
+          cursor: loading ? 'not-allowed' : 'pointer',
+          opacity: loading ? 0.7 : 1
         }}
-      ><FaSearch style={{ marginRight: '8px' }} /> Search Jobs
+      >
+        <FaSearch style={{ marginRight: '8px' }} /> 
+        {loading ? 'Searching...' : 'Search Jobs'}
       </button>
     </form>
   );
