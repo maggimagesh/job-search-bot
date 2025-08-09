@@ -302,7 +302,7 @@ React.useEffect(() => {
         textShadow: '0 2px 10px #3a0ca3cc,0 1px 5px #fff2',
         letterSpacing: '.03em'
       }}>
-        🛡️ No files are stored. All analysis happens instantly in private.
+        🛡️ No files are stored. All analysis happens instantly Only in private.
       </div>
     </div>
   );
