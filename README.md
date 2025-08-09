@@ -75,7 +75,7 @@ This application is designed to work seamlessly across all major browsers and de
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd job-bot
+   cd job-search-bot
    ```
 
 2. **Install dependencies**
