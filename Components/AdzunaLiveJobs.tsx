@@ -3,7 +3,7 @@ export default function AdzunaLiveJobs({ jobs }: any) {
     return (
       <div>
         <h3 style={{ margin: '20px 0 12px', color: "#ff77c9", fontSize: "1.20rem" }}>
-          Live jobs from Adzuna
+          Live jobs from us to you
         </h3>
         <ul style={{ paddingLeft: 22 }}>
           {jobs.map((j: any, i: number) => (
