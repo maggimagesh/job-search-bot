@@ -21,7 +21,7 @@ const portalBuilders: { [key: string]: (role: string, location: string) => strin
   'TimesJobs': (r, l) => `https://www.timesjobs.com/jobsearch.html?searchType=personalizedSearch&from=submit&txtKeywords=${encodeURIComponent(r)}&txtLocation=${encodeURIComponent(l)}`,
   'Shine': (r, l) => `https://www.shine.com/job-search/${encodeURIComponent(r)}-jobs-in-${encodeURIComponent(l)}`,
   'HackerRank': (r, l) => `https://www.hackerrank.com/apply?roles=${encodeURIComponent(`["${r}"]`)}&countries=${encodeURIComponent(`["${l}"]`)}`,
-  'Upwork': (r, l) => `https://www.upwork.com/nx/search/jobs/?nbs=1&q=${encodeURIComponent(r)}`,
+  'Upwork': (r) => `https://www.upwork.com/nx/search/jobs/?nbs=1&q=${encodeURIComponent(r)}`,
   'Freelancer': (r, l) => `https://www.freelancer.com/jobs/?keyword=${encodeURIComponent(r)}&location=${encodeURIComponent(l)}`
 }
 
