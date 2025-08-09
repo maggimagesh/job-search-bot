@@ -22,19 +22,30 @@ Resume:
 """${resumeText}"""
 `;
 
-    const pplxResp = await axios.post(
-      'https://api.perplexity.ai/chat/completions',
-      {
-        model: 'sonar-pro',
-        messages: [{ role: 'user', content: prompt }],
-      },
-      { headers: { Authorization: `Bearer ${process.env.PPLX_API_KEY}` } }
-    );
-
-    const jsonString = pplxResp.data.choices?.[0]?.message?.content;
-    const analysis = JSON.parse(jsonString);
-
-    res.status(200).json({ analysis }); // Jobs fetched separately in search-jobs API
+    const models = ['sonar-pro', 'sonar-medium-chat', 'sonar-small-chat'];
+    let lastError = null;
+    for (const model of models) {
+      try {
+        const pplxResp = await axios.post(
+          'https://api.perplexity.ai/chat/completions',
+          {
+            model,
+            messages: [{ role: 'user', content: prompt }],
+          },
+          { headers: { Authorization: `Bearer ${process.env.PPLX_API_KEY}` } }
+        );
+        const jsonString = pplxResp.data.choices?.[0]?.message?.content;
+        const analysis = JSON.parse(jsonString);
+        return res.status(200).json({ analysis });
+      } catch (err: any) {
+        lastError = err;
+        if (err.response) {
+          console.error(`Perplexity API error for model '${model}':`, err.response.data);
+        }
+      }
+    }
+    // If all models fail, throw the last error
+    if (lastError) throw lastError;
   } catch (err: any) {
     if (err.response) {
       console.error('Perplexity API error response:', err.response.data);
