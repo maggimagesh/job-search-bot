@@ -56,13 +56,18 @@ Resume:
 
         const analysis = JSON.parse(jsonMatch[0]);
         return res.status(200).json({ analysis });
-      } catch {
-        // Try next model
+      } catch (err: any) {
+        // Log the detailed error message
+        console.error(`Model ${model} failed:`, err.response?.data || err.message || err);
+        // Continue trying next model
       }
     }
 
-    return res.status(500).json({ error: 'All AI models failed to return valid JSON' });
-  } catch {
-    return res.status(500).json({ error: 'Unexpected server error' });
+    return res.status(500).json({ error: 'All AI models failed to return valid JSON. Check server logs for details.' });
+  } catch (err: any) {
+    return res.status(500).json({ 
+      error: 'Unexpected server error', 
+      details: err.message || err 
+    });
   }
 }
