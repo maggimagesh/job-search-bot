@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 type PortalLink = { name: string; url: string; note?: string }
 type JobItem = { title: string; company?: string; location?: string; url?: string }
 
-// Fallback portals if xAI is not available
+// Fallback portals if Perplexity AI is not available
 const fallbackPortals: { name: string; build: (role: string, loc: string)=>string }[] = [
   { name: 'Naukri', build: (r,l) => `https://www.naukri.com/${encodeURIComponent(r)}-jobs-in-${encodeURIComponent(l)}` },
   { name: 'Indeed', build: (r,l) => `https://in.indeed.com/jobs?q=${encodeURIComponent(r)}&l=${encodeURIComponent(l)}` },
@@ -26,10 +26,10 @@ const portalBuilders: { [key: string]: (role: string, location: string) => strin
 }
 
 async function getDynamicPortals(role: string, location: string): Promise<PortalLink[]> {
-  const xaiApiKey = process.env.XAI_API_KEY
+  const pplxApiKey = process.env.PPLX_API_KEY
   
-  if (!xaiApiKey) {
-    // Fallback to static portals if xAI is not configured
+  if (!pplxApiKey) {
+    // Fallback to static portals if Perplexity AI is not configured
     return fallbackPortals.map(p => ({ 
       name: p.name, 
       url: p.build(role, location), 
@@ -50,14 +50,14 @@ Available portals: ${Object.keys(portalBuilders).join(', ')}
 For a ${role} in ${location}, return 5-6 most relevant portals as a JSON array. Be diverse and consider specialized portals:
 ["Portal1", "Portal2", "Portal3", "Portal4", "Portal5"]`
 
-    const response = await fetch('https://api.x.ai/v1/chat/completions', {
+    const response = await fetch('https://api.perplexity.ai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${xaiApiKey}`,
+        'Authorization': `Bearer ${pplxApiKey}`,
       },
       body: JSON.stringify({
-        model: 'grok-3',
+        model: 'pplx-70b-online',
         messages: [
           {
             role: 'user',
@@ -65,24 +65,23 @@ For a ${role} in ${location}, return 5-6 most relevant portals as a JSON array. 
           }
         ],
         max_tokens: 200,
-        temperature: 0.7,
-        reasoning: false
+        temperature: 0.7
       })
     })
 
     if (!response.ok) {
-      console.error(`xAI API error: ${response.status} - ${response.statusText}`)
-      throw new Error(`xAI API error: ${response.status}`)
+      console.error(`Perplexity AI API error: ${response.status} - ${response.statusText}`)
+      throw new Error(`Perplexity AI API error: ${response.status}`)
     }
 
     const data = await response.json()
     const content = data.choices?.[0]?.message?.content
 
     if (!content) {
-      throw new Error('No content received from xAI')
+      throw new Error('No content received from Perplexity AI')
     }
 
-    // Parse the JSON response from xAI
+    // Parse the JSON response from Perplexity AI
     let portalNames: string[]
     try {
       // Extract JSON array from the response
@@ -93,8 +92,8 @@ For a ${role} in ${location}, return 5-6 most relevant portals as a JSON array. 
         throw new Error('No JSON array found in response')
       }
     } catch (parseError) {
-      console.error('Failed to parse xAI response:', content)
-      throw new Error('Invalid response format from xAI')
+      console.error('Failed to parse Perplexity AI response:', content)
+      throw new Error('Invalid response format from Perplexity AI')
     }
 
     // Validate and filter portal names
