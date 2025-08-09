@@ -57,22 +57,26 @@ Resume:
         const analysis = JSON.parse(jsonMatch[0]);
         return res.status(200).json({ analysis });
       } catch (err: any) {
-        const errorMessage = err.response?.data || err.message || 'Unknown error';
-        console.error(`Model ${model} failed:`, errorMessage);
-        // If it's a 400 error, return the actual Perplexity message
-        if (err.response?.status === 400) {
-          return res.status(400).json({
-            error: 'Bad Request from Perplexity',
-            details: errorMessage,
+        console.error(`Model ${model} failed:`, err.response?.data || err.message);
+        
+        // If the API gave an error body, pass it through
+        if (err.response?.data) {
+          return res.status(err.response.status || 500).json({
+            error: err.response.data,
           });
         }
+
+        // Otherwise, just return the error message
+        return res.status(500).json({
+          error: err.message || 'Unknown error occurred',
+        });
       }
     }
 
     return res.status(500).json({ error: 'All AI models failed to return valid JSON' });
   } catch (err: any) {
-    const errorMessage = err.response?.data || err.message || 'Unknown server error';
-    console.error('Unexpected server error:', errorMessage);
-    return res.status(500).json({ error: errorMessage });
+    return res.status(500).json({
+      error: err.response?.data || err.message || 'Unexpected server error',
+    });
   }
 }
