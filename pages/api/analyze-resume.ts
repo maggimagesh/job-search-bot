@@ -57,17 +57,22 @@ Resume:
         const analysis = JSON.parse(jsonMatch[0]);
         return res.status(200).json({ analysis });
       } catch (err: any) {
-        // Log the detailed error message
-        console.error(`Model ${model} failed:`, err.response?.data || err.message || err);
-        // Continue trying next model
+        const errorMessage = err.response?.data || err.message || 'Unknown error';
+        console.error(`Model ${model} failed:`, errorMessage);
+        // If it's a 400 error, return the actual Perplexity message
+        if (err.response?.status === 400) {
+          return res.status(400).json({
+            error: 'Bad Request from Perplexity',
+            details: errorMessage,
+          });
+        }
       }
     }
 
-    return res.status(500).json({ error: 'All AI models failed to return valid JSON. Check server logs for details.' });
+    return res.status(500).json({ error: 'All AI models failed to return valid JSON' });
   } catch (err: any) {
-    return res.status(500).json({ 
-      error: 'Unexpected server error', 
-      details: err.message || err 
-    });
+    const errorMessage = err.response?.data || err.message || 'Unknown server error';
+    console.error('Unexpected server error:', errorMessage);
+    return res.status(500).json({ error: errorMessage });
   }
 }
