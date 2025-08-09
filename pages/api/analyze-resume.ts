@@ -31,12 +31,18 @@ Resume:
       { headers: { Authorization: `Bearer ${process.env.PPLX_API_KEY}` } }
     );
 
-  const jsonString = pplxResp.data.choices?.[0]?.message?.content;
-  const analysis = JSON.parse(jsonString);
+    const jsonString = pplxResp.data.choices?.[0]?.message?.content;
+    const analysis = JSON.parse(jsonString);
 
-  res.status(200).json({ analysis }); // Jobs fetched separately in search-jobs API
+    res.status(200).json({ analysis }); // Jobs fetched separately in search-jobs API
   } catch (err: any) {
+    if (err.response) {
+      console.error('Perplexity API error response:', err.response.data);
+    }
     console.error(err);
-    res.status(err.response?.status || 500).json({ error: err.message || 'Server error' });
+    res.status(err.response?.status || 500).json({
+      error: err.message || 'Server error',
+      details: err.response?.data || null
+    });
   }
 }

@@ -57,7 +57,7 @@ For a ${role} in ${location}, return 5-6 most relevant portals as a JSON array. 
         'Authorization': `Bearer ${pplxApiKey}`,
       },
       body: JSON.stringify({
-        model: 'pplx-70b-online',
+        model: 'sonar-pro',
         messages: [
           {
             role: 'user',
