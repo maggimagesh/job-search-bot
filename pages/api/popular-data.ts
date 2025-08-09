@@ -11,10 +11,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    // Check if xAI API key is configured
-    const xaiApiKey = process.env.XAI_API_KEY
-    if (!xaiApiKey) {
-      // Fallback to static data if xAI is not configured
+    // Check if Perplexity AI API key is configured
+    const pplxApiKey = process.env.PPLX_API_KEY
+    if (!pplxApiKey) {
+      // Fallback to static data if Perplexity AI is not configured
       const fallbackData: PopularData = {
         popularRoles: [
           'Java Full Stack Developer',
@@ -44,41 +44,38 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(200).json(fallbackData)
     }
 
-    // Use xAI to generate dynamic popular jobs and locations
+    // Use Perplexity AI to generate dynamic popular jobs and locations
     const prompt = `Generate 6 popular job roles and 6 trending locations for job search in India. Return only JSON: {"popularRoles": ["role1", "role2", "role3", "role4", "role5", "role6"], "trendingLocations": ["location1", "location2", "location3", "location4", "location5", "location6"]}`
 
-    const response = await fetch('https://api.x.ai/v1/chat/completions', {
+  const response = await fetch('https://api.perplexity.ai/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${xaiApiKey}`,
+        'Authorization': `Bearer ${pplxApiKey}`,
       },
       body: JSON.stringify({
-        model: 'grok-3',
+        model: 'sonar-pro',
         messages: [
           {
             role: 'user',
             content: prompt
           }
-        ],
-        max_tokens: 300,
-        temperature: 0.7,
-        reasoning: false
+        ]
       })
     })
 
     if (!response.ok) {
-      throw new Error(`xAI API error: ${response.status}`)
+      throw new Error(`Perplexity AI API error: ${response.status}`)
     }
 
     const data = await response.json()
     const content = data.choices?.[0]?.message?.content
 
     if (!content) {
-      throw new Error('No content received from xAI')
+      throw new Error('No content received from Perplexity AI')
     }
 
-    // Parse the JSON response from xAI
+    // Parse the JSON response from Perplexity AI
     let parsedData: PopularData
     try {
       // Extract JSON from the response (in case there's extra text)
@@ -89,13 +86,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         throw new Error('No JSON found in response')
       }
     } catch (parseError) {
-      console.error('Failed to parse xAI response:', content)
-      throw new Error('Invalid response format from xAI')
+      console.error('Failed to parse Perplexity AI response:', content)
+      throw new Error('Invalid response format from Perplexity AI')
     }
 
     // Validate the response structure
     if (!parsedData.popularRoles || !parsedData.trendingLocations) {
-      throw new Error('Invalid response structure from xAI')
+      throw new Error('Invalid response structure from Perplexity AI')
     }
 
     // Ensure we have arrays of strings

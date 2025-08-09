@@ -22,20 +22,19 @@ Resume:
 """${resumeText}"""
 `;
 
-    const xaiResp = await axios.post(
-      'https://api.x.ai/v1/chat/completions',
+    const pplxResp = await axios.post(
+      'https://api.perplexity.ai/chat/completions',
       {
-        model: 'grok-3',
+        model: 'sonar-pro',
         messages: [{ role: 'user', content: prompt }],
-        temperature: 0.3,
       },
-      { headers: { Authorization: `Bearer ${process.env.XAI_API_KEY}` } }
+      { headers: { Authorization: `Bearer ${process.env.PPLX_API_KEY}` } }
     );
 
-    const jsonString = xaiResp.data.choices?.[0]?.message?.content;
-    const analysis = JSON.parse(jsonString);
+  const jsonString = pplxResp.data.choices?.[0]?.message?.content;
+  const analysis = JSON.parse(jsonString);
 
-    res.status(200).json({ analysis }); // Jobs fetched separately in search-jobs API
+  res.status(200).json({ analysis }); // Jobs fetched separately in search-jobs API
   } catch (err: any) {
     console.error(err);
     res.status(err.response?.status || 500).json({ error: err.message || 'Server error' });
