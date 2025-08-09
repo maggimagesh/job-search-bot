@@ -16,8 +16,7 @@ export default function JobSearchForm({
         setPopularRoles(data.popularRoles || []);
         setTrendingLocations(data.trendingLocations || []);
       } catch (error) {
-        console.error('Failed to fetch popular data:', error);
-        // Fallback to static data
+        // Fallback static data
         setPopularRoles([
           'Java Full Stack Developer', 
           'Frontend Developer', 
@@ -41,6 +40,11 @@ export default function JobSearchForm({
 
     fetchPopularData();
   }, []);
+
+  // --- Gradient theme for the Search Jobs button ---
+  const searchButtonGradient = loading
+    ? 'linear-gradient(90deg,#dbd7fb,#ebd9fa 94%)'
+    : 'linear-gradient(90deg, #9150fa 0%, #f3c6fe 100%)';
 
   return (
     <form
@@ -155,13 +159,29 @@ export default function JobSearchForm({
           fontSize: '18px',
           fontWeight: 'bold',
           border: 'none',
-          borderRadius: '8px',
-          background: loading 
-            ? 'rgba(255,255,255,0.3)' 
-            : 'linear-gradient(90deg, #ff0080, #ff4d4d)',
+          borderRadius: '14px',
+          background: searchButtonGradient,
           color: '#fff', 
           cursor: loading ? 'not-allowed' : 'pointer',
-          opacity: loading ? 0.7 : 1
+          opacity: loading ? 0.7 : 1,
+          boxShadow: loading
+            ? '0px 2px 10px #e4e4fa'
+            : '0px 4px 20px rgba(145,80,250,0.21)',
+          transition: 'box-shadow .19s, transform .15s, background .18s',
+          marginTop: '18px',
+        }}
+        onMouseOver={(e) => {
+          if (!loading) {
+            e.currentTarget.style.boxShadow = '0px 8px 38px #9150fa33';
+            e.currentTarget.style.transform = 'scale(1.03)';
+          }
+        }}
+        onMouseOut={(e) => {
+          if (!loading) {
+            e.currentTarget.style.boxShadow =
+              '0px 4px 20px rgba(145,80,250,0.21)';
+            e.currentTarget.style.transform = 'none';
+          }
         }}
       >
         <FaSearch style={{ marginRight: '8px' }} /> 
