@@ -1,8 +1,8 @@
 node_modules
 .next
 .env
-.env.development
-.env.local
 .vscode
 .DS_Store
 /mnt
+.env.development
+.env.local
