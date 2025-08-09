@@ -190,6 +190,32 @@ p {
   to { transform: translateX(0); }
 }
 
+@keyframes bounceInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px) scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(20px) scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes slideUpFromBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Utility classes */
 .fade-in {
   animation: fadeIn 0.5s ease-out;
