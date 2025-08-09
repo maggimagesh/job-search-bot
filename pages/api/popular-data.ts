@@ -1,24 +1,27 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 type PopularData = {
-  popularRoles: string[]
-  trendingLocations: string[]
-}
+  popularRoles: string[];
+  trendingLocations: string[];
+};
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Method not allowed' })
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    // Check if Perplexity AI API key is configured
-    const pplxApiKey = process.env.PPLX_API_KEY
+    // Debug log to check if the env var is loaded in production
+    console.log("PPLX_API_KEY exists:", !!process.env.PPLX_API_KEY);
+
+    const pplxApiKey = process.env.PPLX_API_KEY;
+
     if (!pplxApiKey) {
-      // Fallback to static data if Perplexity AI is not configured
+      // Return fallback data if API key is not configured
       const fallbackData: PopularData = {
         popularRoles: [
           'Java Full Stack Developer',
-          'Frontend Developer', 
+          'Frontend Developer',
           'Data Scientist',
           'Product Manager',
           'UX Designer',
@@ -30,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         ],
         trendingLocations: [
           'Chennai',
-          'Bangalore', 
+          'Bangalore',
           'Mumbai',
           'Delhi',
           'Hyderabad',
@@ -40,16 +43,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           'Kolkata',
           'Ahmedabad'
         ]
-      }
-      return res.status(200).json(fallbackData)
+      };
+      return res.status(200).json(fallbackData);
     }
 
-    // Use Perplexity AI to generate dynamic popular jobs and locations
-    const prompt = `Generate 6 popular job roles and 6 trending locations for job search in India. Return only JSON: {"popularRoles": ["role1", "role2", "role3", "role4", "role5", "role6"], "trendingLocations": ["location1", "location2", "location3", "location4", "location5", "location6"]}`
+    // Prompt for Perplexity AI
+    const prompt = `Generate 6 popular job roles and 6 trending locations for job search in India. Return only JSON: {"popularRoles": ["role1", "role2", "role3", "role4", "role5", "role6"], "trendingLocations": ["location1", "location2", "location3", "location4", "location5", "location6"]}`;
 
     const models = ['sonar-pro', 'sonar-medium-chat', 'sonar-small-chat'];
-    let lastError = null;
-    let content = null;
+    let lastError: any = null;
+    let content: string | null = null;
+
     for (const model of models) {
       try {
         const response = await fetch('https://api.perplexity.ai/chat/completions', {
@@ -61,33 +65,34 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           body: JSON.stringify({
             model,
             messages: [
-              {
-                role: 'user',
-                content: prompt
-              }
+              { role: 'user', content: prompt }
             ]
           })
         });
+
         if (!response.ok) {
           const errText = await response.text();
           console.error(`Perplexity API error for model '${model}':`, errText);
           throw new Error(`Perplexity AI API error: ${response.status}`);
         }
+
         const data = await response.json();
         content = data.choices?.[0]?.message?.content;
-        if (content) break;
+        if (content) break; // Exit loop if we have a response
+
       } catch (err) {
         lastError = err;
+        console.error(`Error for model '${model}':`, err);
       }
     }
+
     if (!content) {
       throw lastError || new Error('No content received from Perplexity AI');
     }
 
-    // Parse the JSON response from Perplexity AI
+    // Parse the JSON response safely
     let parsedData: PopularData;
     try {
-      // Extract JSON from the response (in case there's extra text)
       const jsonMatch = content.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
         parsedData = JSON.parse(jsonMatch[0]);
@@ -99,34 +104,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       throw new Error('Invalid response format from Perplexity AI');
     }
 
-    // Validate the response structure
-    if (!parsedData.popularRoles || !parsedData.trendingLocations) {
-      throw new Error('Invalid response structure from Perplexity AI')
+    // Validate structure
+    if (
+      !parsedData.popularRoles || 
+      !parsedData.trendingLocations ||
+      !Array.isArray(parsedData.popularRoles) ||
+      !Array.isArray(parsedData.trendingLocations)
+    ) {
+      throw new Error('Invalid response structure from Perplexity AI');
     }
 
-    // Ensure we have arrays of strings
-    if (!Array.isArray(parsedData.popularRoles) || !Array.isArray(parsedData.trendingLocations)) {
-      throw new Error('Response arrays are not in expected format')
-    }
-
-    // Limit to 6 items each for UI consistency
+    // Limit to 6 items each
     const result: PopularData = {
       popularRoles: parsedData.popularRoles.slice(0, 6),
       trendingLocations: parsedData.trendingLocations.slice(0, 6)
-    }
+    };
 
-    return res.status(200).json(result)
+    return res.status(200).json(result);
 
-  } catch (error) {
-    console.error('Error fetching popular data:', error)
-    if (error instanceof Error) {
-      console.error('Error details:', {
-        message: error.message,
-        stack: error.stack,
-        name: error.name
-      })
-    }
-    
+  } catch (error: any) {
+    console.error('Error fetching popular data:', error);
+
     // Return fallback data on error
     const fallbackData: PopularData = {
       popularRoles: [
@@ -145,8 +143,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         'Hyderabad',
         'Pune'
       ]
-    }
+    };
     
-    return res.status(200).json(fallbackData)
+    return res.status(200).json(fallbackData);
   }
 }

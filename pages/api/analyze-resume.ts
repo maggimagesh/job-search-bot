@@ -4,12 +4,18 @@ import axios from 'axios';
 export const config = { api: { bodyParser: { sizeLimit: '10mb' } } };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST')
+  if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
 
   try {
+    // Debug log — check if env var is loaded in Vercel
+    console.log("PPLX_API_KEY exists:", !!process.env.PPLX_API_KEY);
+
     const { resumeText } = req.body;
-    if (!resumeText) return res.status(400).json({ error: 'Missing resume text' });
+    if (!resumeText) {
+      return res.status(400).json({ error: 'Missing resume text' });
+    }
 
     const prompt = `
 Analyze the following resume and return JSON ONLY:
@@ -23,7 +29,8 @@ Resume:
 `;
 
     const models = ['sonar-pro', 'sonar-medium-chat', 'sonar-small-chat'];
-    let lastError = null;
+    let lastError: any = null;
+
     for (const model of models) {
       try {
         const pplxResp = await axios.post(
@@ -32,28 +39,43 @@ Resume:
             model,
             messages: [{ role: 'user', content: prompt }],
           },
-          { headers: { Authorization: `Bearer ${process.env.PPLX_API_KEY}` } }
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${process.env.PPLX_API_KEY}`,
+            },
+          }
         );
+
         const jsonString = pplxResp.data.choices?.[0]?.message?.content;
-        const analysis = JSON.parse(jsonString);
+        let analysis;
+        try {
+          analysis = JSON.parse(jsonString);
+        } catch {
+          console.error('Failed to parse JSON from Perplexity:', jsonString);
+          throw new Error('Invalid JSON returned from Perplexity');
+        }
+
         return res.status(200).json({ analysis });
+
       } catch (err: any) {
         lastError = err;
         if (err.response) {
           console.error(`Perplexity API error for model '${model}':`, err.response.data);
+        } else {
+          console.error(`Error for model '${model}':`, err.message);
         }
       }
     }
-    // If all models fail, throw the last error
+
+    // If all models fail
     if (lastError) throw lastError;
+
   } catch (err: any) {
-    if (err.response) {
-      console.error('Perplexity API error response:', err.response.data);
-    }
-    console.error(err);
+    console.error('Final error:', err.response?.data || err.message);
     res.status(err.response?.status || 500).json({
       error: err.message || 'Server error',
-      details: err.response?.data || null
+      details: err.response?.data || null,
     });
   }
 }
