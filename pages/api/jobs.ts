@@ -8,7 +8,9 @@ const fallbackPortals: { name: string; build: (role: string, loc: string)=>strin
   { name: 'Naukri', build: (r,l) => `https://www.naukri.com/${encodeURIComponent(r)}-jobs-in-${encodeURIComponent(l)}` },
   { name: 'Indeed', build: (r,l) => `https://in.indeed.com/jobs?q=${encodeURIComponent(r)}&l=${encodeURIComponent(l)}` },
   { name: 'LinkedIn', build: (r,l) => `https://www.linkedin.com/jobs/search?keywords=${encodeURIComponent(r)}&location=${encodeURIComponent(l)}` },
-  { name: 'Glassdoor', build: (r,l) => `https://www.glassdoor.co.in/Job/${encodeURIComponent(l)}-${encodeURIComponent(r)}-jobs-SRCH_IL.0,${encodeURIComponent(l.length)}.htm` }
+  { name: 'Glassdoor', build: (r,l) => `https://www.glassdoor.co.in/Job/${encodeURIComponent(l)}-${encodeURIComponent(r)}-jobs-SRCH_IL.0,${encodeURIComponent(l.length)}.htm` },
+  { name: 'Found It', build: (r,l) => `https://www.foundit.in/srp/results?query=${encodeURIComponent(`"${r}"`)}&locations=${encodeURIComponent(l)}&queryEntity=${encodeURIComponent(r.toLowerCase().replace(/\s+/g, '+') + ':designation')}` },
+  { name: 'TimesJobs', build: (r,l) => `https://www.timesjobs.com/jobsearch.html?searchType=personalizedSearch&from=submit&txtKeywords=${encodeURIComponent(r)}&txtLocation=${encodeURIComponent(l)}` }
 ]
 
 // Portal URL builders
@@ -29,6 +31,7 @@ async function getDynamicPortals(role: string, location: string): Promise<Portal
   const pplxApiKey = process.env.PPLX_API_KEY
   
   if (!pplxApiKey) {
+    console.log('No Perplexity API key found, using fallback portals')
     // Fallback to static portals if Perplexity AI is not configured
     return fallbackPortals.map(p => ({ 
       name: p.name, 
@@ -50,6 +53,10 @@ Available portals: ${Object.keys(portalBuilders).join(', ')}
 For a ${role} in ${location}, return 5-6 most relevant portals as a JSON array. Be diverse and consider specialized portals:
 ["Portal1", "Portal2", "Portal3", "Portal4", "Portal5"]`
 
+    // Create AbortController for timeout
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+
     const response = await fetch('https://api.perplexity.ai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -66,12 +73,21 @@ For a ${role} in ${location}, return 5-6 most relevant portals as a JSON array. 
         ],
         max_tokens: 200,
         temperature: 0.7
-      })
+      }),
+      signal: controller.signal
     })
+
+    clearTimeout(timeoutId)
 
     if (!response.ok) {
       console.error(`Perplexity AI API error: ${response.status} - ${response.statusText}`)
-      throw new Error(`Perplexity AI API error: ${response.status}`)
+      console.log('Falling back to static portals due to API error')
+      // Return fallback portals instead of throwing error
+      return fallbackPortals.map(p => ({ 
+        name: p.name, 
+        url: p.build(role, location), 
+        note: 'Search results page' 
+      }))
     }
 
     const data = await response.json()
@@ -108,7 +124,7 @@ For a ${role} in ${location}, return 5-6 most relevant portals as a JSON array. 
 
     // If no valid portals found, use fallback
     if (validPortals.length === 0) {
-      console.warn('No valid portals found in xAI response, using fallback')
+      console.warn('No valid portals found in Perplexity AI response, using fallback')
       return fallbackPortals.map(p => ({ 
         name: p.name, 
         url: p.build(role, location), 
@@ -133,6 +149,7 @@ For a ${role} in ${location}, return 5-6 most relevant portals as a JSON array. 
 
   } catch (error) {
     console.error('Error fetching dynamic portals:', error)
+    console.log('Using fallback portals due to error')
     // Return fallback portals on error
     return fallbackPortals.map(p => ({ 
       name: p.name, 

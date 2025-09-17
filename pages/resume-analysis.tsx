@@ -9,22 +9,54 @@ export default function ResumeAnalysisPage() {
     <div
       style={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg,#5510a6 0%,#823fff 80%)',
+        background: 'var(--bg-primary)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: '40px 20px',
+        padding: 'var(--space-3xl) var(--space-lg)',
+        fontFamily: 'Inter, sans-serif',
       }}
     >
-      <div style={{ textAlign: 'center', marginBottom: 24 }}>
-        <h1 style={{ fontSize: 36, fontWeight: 700, color: '#fff' }}>
+      <div style={{ textAlign: 'center', marginBottom: 'var(--space-2xl)' }}>
+        <div
+          className="surface"
+          style={{
+            display: 'inline-block',
+            padding: 'var(--space-sm) var(--space-lg)',
+            borderRadius: 'var(--radius-full)',
+            fontSize: '14px',
+            fontWeight: 600,
+            letterSpacing: '1px',
+            color: 'var(--accent-primary)',
+            marginBottom: 'var(--space-lg)',
+            textTransform: 'uppercase',
+            border: '1px solid var(--accent-primary)',
+          }}
+        >
+          ⚡ AI-Powered Resume Analysis ⚡
+        </div>
+        <h1 style={{
+          fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+          fontWeight: '900',
+          margin: '0 0 var(--space-md)',
+          letterSpacing: '-0.02em',
+          color: 'var(--text-primary)',
+          textShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
+          background: 'linear-gradient(135deg, #ffffff 0%, var(--accent-primary) 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+        }}>
           Resume Analysis
         </h1>
         <p style={{
-          fontSize: 18,
-          color: 'rgba(255,255,255,0.9)',
-          maxWidth: 600,
-          margin: '8px auto'
+          fontSize: 'clamp(1rem, 2.5vw, 1.25rem)',
+          maxWidth: '700px',
+          margin: '0 auto',
+          color: 'var(--text-secondary)',
+          fontWeight: 400,
+          lineHeight: 1.6,
+          letterSpacing: '0.3px',
         }}>
           Upload your resume to get AI-powered insights and best matching jobs.
         </p>

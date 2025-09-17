@@ -30,47 +30,58 @@ export default function Home() {
     <div
       style={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #1e0035 0%, #6e2ad5 60%, #f3c6fe 100%)',
-        color: '#fff',
+        background: 'var(--bg-primary)',
+        color: 'var(--text-primary)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: '40px 20px',
+        padding: 'var(--space-3xl) var(--space-lg)',
         fontFamily: 'Inter, sans-serif',
+        position: 'relative',
       }}
     >
-      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+      <div style={{ textAlign: 'center', marginBottom: 'var(--space-2xl)' }}>
         <div
+          className="surface"
           style={{
             display: 'inline-block',
-            background: 'rgba(255,255,255,0.12)',
-            padding: '6px 14px',
-            borderRadius: '20px',
-            fontSize: '15px',
+            padding: 'var(--space-sm) var(--space-lg)',
+            borderRadius: 'var(--radius-full)',
+            fontSize: '14px',
             fontWeight: 600,
-            letterSpacing: '.04em',
-            color: '#dbdbfc',
+            letterSpacing: '1px',
+            color: 'var(--accent-primary)',
+            marginBottom: 'var(--space-lg)',
+            textTransform: 'uppercase',
+            border: '1px solid var(--accent-primary)',
           }}
         >
           ⚡ AI-Powered Job Search ⚡
         </div>
         <h1 style={{
-          fontSize: '48px',
-          fontWeight: 'bold',
-          margin: '22px 0 10px',
-          letterSpacing: '.03em',
-          textShadow: '0 2px 22px #9150fa55',
+          fontSize: 'clamp(3rem, 6vw, 4.5rem)',
+          fontWeight: '900',
+          margin: '0 0 var(--space-md)',
+          letterSpacing: '-0.03em',
+          color: 'var(--text-primary)',
+          textShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
+          background: 'linear-gradient(135deg, #ffffff 0%, var(--accent-primary) 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
         }}>
           Dream Job Finder
         </h1>
         <p style={{
-          fontSize: '19px',
-          maxWidth: '700px',
+          fontSize: 'clamp(1.1rem, 2.5vw, 1.4rem)',
+          maxWidth: '800px',
           margin: '0 auto',
-          color: '#e2deff',
-          fontWeight: 500,
+          color: 'var(--text-secondary)',
+          fontWeight: 400,
+          lineHeight: 1.6,
+          letterSpacing: '0.3px',
         }}>
-          Enter your role and location to unlock opportunities across all major job portals. Your career upgrade starts here! ✨
+          Enter your role and location to unlock opportunities across all major job portals. Your career upgrade starts here.
         </p>
       </div>
 
@@ -82,59 +93,71 @@ export default function Home() {
         searchJobs={searchJobs}
         loading={loading}
         buttonStyle={{
-          background: 'linear-gradient(90deg, #9150fa 0%, #f3c6fe 100%)',
-          color: '#fff',
+          background: 'linear-gradient(135deg, var(--accent-primary) 0%, #3b82f6 100%)',
+          color: 'var(--bg-primary)',
           border: 'none',
-          padding: '12px 28px',
-          borderRadius: '14px',
-          fontSize: '17px',
-          fontWeight: 'bold',
+          padding: 'var(--space-md) var(--space-xl)',
+          borderRadius: 'var(--radius-md)',
+          fontSize: '16px',
+          fontWeight: '600',
           cursor: 'pointer',
-          boxShadow: '0px 4px 18px rgba(80,40,180,.12)',
-          transition: 'box-shadow .18s, transform .14s',
+          boxShadow: 'var(--shadow-md), var(--shadow-glow)',
+          transition: 'all var(--transition-normal)',
+          textTransform: 'uppercase',
+          letterSpacing: '0.5px',
         }}
         buttonHoverStyle={{
-          boxShadow: '0px 8px 28px #9150fa33',
-          transform: 'scale(1.03)'
+          background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+          boxShadow: 'var(--shadow-lg), var(--shadow-glow-hover)',
+          transform: 'translateY(-2px)'
         }}
       />
 
       <button
         onClick={() => router.push('/resume-analysis')}
+        className="btn-secondary"
         style={{
-          marginTop: '30px',
-          padding: '14px 30px',
-          background: 'linear-gradient(90deg, #9150fa 0%, #f3c6fe 100%)',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '14px',
-          fontSize: '18px',
-          fontWeight: 'bold',
-          letterSpacing: '.03em',
-          cursor: 'pointer',
-          boxShadow: '0px 4px 26px rgba(80,40,180,.10)',
-          transition: 'box-shadow .18s, transform .14s',
+          marginTop: 'var(--space-xl)',
+          padding: 'var(--space-md) var(--space-xl)',
+          fontSize: '16px',
+          fontWeight: '600',
+          letterSpacing: '0.5px',
           outline: 'none',
           position: 'relative',
+          textTransform: 'uppercase',
         }}
         onMouseOver={e => {
-          (e.currentTarget as HTMLElement).style.boxShadow = '0px 8px 38px #9150fa33';
-          (e.currentTarget as HTMLElement).style.transform = 'scale(1.03)';
+          (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-lg), var(--shadow-glow)';
+          (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
         }}
         onMouseOut={e => {
-          (e.currentTarget as HTMLElement).style.boxShadow = '0px 4px 26px rgba(80,40,180,.10)';
+          (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-sm)';
           (e.currentTarget as HTMLElement).style.transform = 'none';
         }}
       >
-        🚀Analyze your resume for better results
+        🚀 Analyze your resume for better results
       </button>
 
-      <div style={{ maxWidth: '900px', marginTop: '32px', width: '100%' }}>
+      <div style={{ maxWidth: '900px', marginTop: 'var(--space-xl)', width: '100%' }}>
         {loading && <p style={{
-          color: '#9150fa', fontWeight: 600, fontSize: 18, textAlign: 'center'
+          color: 'var(--text-accent)', 
+          fontWeight: 600, 
+          fontSize: 18, 
+          textAlign: 'center',
+          textShadow: '0 2px 10px rgba(0, 212, 255, 0.3)'
         }}>Searching...</p>}
         {data && data.error &&
-          <p style={{ color: '#ff6f60', fontWeight: 600, fontSize: 17 }}>Error: {data.error}</p>
+          <p style={{ 
+            color: 'var(--accent-error)', 
+            fontWeight: 600, 
+            fontSize: 17,
+            textAlign: 'center',
+            padding: 'var(--space-md)',
+            background: 'var(--bg-surface)',
+            borderRadius: 'var(--radius-md)',
+            border: '1px solid var(--accent-error)',
+            boxShadow: 'var(--shadow-md)'
+          }}>Error: {data.error}</p>
         }
         {data && !data.error && (
           <>

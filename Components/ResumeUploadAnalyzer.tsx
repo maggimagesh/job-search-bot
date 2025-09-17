@@ -107,13 +107,11 @@ React.useEffect(() => {
 
   return (
     <div
+      className="card"
       style={{
-        maxWidth: 460,
+        maxWidth: 500,
         margin: '0 auto',
-        background: 'linear-gradient(140deg,#2c1b40 2%, #8d60fc 70%,#e6beff 100%)',
-        borderRadius: 32,
-        boxShadow: '0 7px 32px #7d59ff44, 0 2px 8px #8921c222',
-        padding: '42px 24px',
+        padding: 'var(--space-3xl)',
         textAlign: 'center'
       }}
       onDragEnter={handleDrag}
@@ -122,65 +120,54 @@ React.useEffect(() => {
       onDrop={handleDrop}
     >
       <div
+        className="surface"
         style={{
-          border: dragActive ? '2.5px dashed #fff' : '2px solid #e687ff',
-          background: dragActive
-            ? 'rgba(209,187,255,0.12)'
-            : 'linear-gradient(135deg,#5224a3ee 34%,#e9e0ffcc 99%)',
-          borderRadius: 24,
-          marginBottom: 20,
-          boxShadow: '0 4px 28px #7d59ff19',
-          padding: '32px 16px 18px',
+          border: dragActive ? '2px dashed var(--accent-primary)' : '1px solid var(--bg-elevated)',
+          background: dragActive ? 'var(--bg-elevated)' : 'var(--bg-surface)',
+          borderRadius: 'var(--radius-lg)',
+          marginBottom: 'var(--space-lg)',
+          padding: 'var(--space-2xl) var(--space-lg)',
+          transition: 'all var(--transition-normal)',
         }}
       >
-        <div style={{ fontSize: 46, marginBottom: 12 }}>{avatar}</div>
+        <div style={{ fontSize: 48, marginBottom: 'var(--space-md)' }}>{avatar}</div>
         <div style={{
-          fontWeight: 800,
-          fontSize: 19,
-          color: '#fff',
-          marginBottom: 8,
-          textShadow: '0 2px 18px #3a0ca3aa, 0 1px 6px #fff2',
-          letterSpacing: '.04em',
-          lineHeight: 1.18,
+          fontWeight: 700,
+          fontSize: '18px',
+          color: 'var(--text-primary)',
+          marginBottom: 'var(--space-sm)',
+          textTransform: 'uppercase',
+          letterSpacing: '0.5px',
+          lineHeight: 1.3,
         }}>
           Drag & drop your resume PDF/TXT here
         </div>
         <div
           style={{
-            fontSize: 15,
-            color: '#e2deff',
-            marginBottom: 13,
+            fontSize: '14px',
+            color: 'var(--text-tertiary)',
+            marginBottom: 'var(--space-md)',
             fontWeight: 600,
-            textShadow: '0 2px 10px #3929d0aa',
-            letterSpacing: '.03em',
-            opacity: 0.93,
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px',
           }}>or</div>
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
+          className="btn-secondary"
           style={{
-            display: 'inline-block',
-            padding: '10px 24px',
-            background: 'linear-gradient(90deg,#9150fa 0%,#f3c6fe 100%)',
-            color: '#fff',
-            fontWeight: 800,
-            fontSize: '16.5px',
-            border: 'none',
-            borderRadius: 16,
-            boxShadow: '0 2px 12px rgba(112,33,200,.12), 0 1px 7px #fff3',
-            cursor: 'pointer',
-            transition: '.16s box-shadow, .13s transform',
-            textShadow: '0 2px 14px #0007',
-            letterSpacing: '.02em',
-            outline: 'none'
+            padding: 'var(--space-md) var(--space-xl)',
+            fontSize: '14px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px',
           }}
           onMouseOver={e => {
-            e.currentTarget.style.boxShadow = '0 8px 34px #9150fa77';
-            e.currentTarget.style.transform = 'scale(1.06)';
+            e.currentTarget.style.boxShadow = 'var(--shadow-lg), var(--shadow-glow)';
+            e.currentTarget.style.transform = 'translateY(-2px)';
           }}
           onMouseOut={e => {
-            e.currentTarget.style.boxShadow = '0 2px 12px rgba(112,33,200,.12), 0 1px 7px #fff3';
-            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
+            e.currentTarget.style.transform = 'none';
           }}
         >
           {file ? '📄 ' + file.name : 'Choose File'}
@@ -194,45 +181,45 @@ React.useEffect(() => {
           onChange={handleFileChange}
         />
         <div style={{
-          fontSize: 13.5,
-          color: '#f8eaff',
-          marginTop: 10,
+          fontSize: '12px',
+          color: 'var(--text-muted)',
+          marginTop: 'var(--space-sm)',
           fontWeight: 500,
-          opacity: 0.97,
-          textShadow: '0 1px 8px #7d59ff44,0 2px 10px #fff5',
-          letterSpacing: '.02em'
+          textTransform: 'uppercase',
+          letterSpacing: '0.5px'
         }}>
           PDF or TXT, max 10MB
         </div>
       </div>
 
       {loading && (
-        <div style={{ margin: '18px auto 4px', width: '100%' }}>
+        <div style={{ margin: 'var(--space-lg) auto var(--space-sm)', width: '100%' }}>
           <div style={{
             width: '100%',
-            height: 8,
-            borderRadius: 6,
-            background: 'linear-gradient(90deg,#e687ff 6%, #ffe2ed 100%)',
+            height: 6,
+            borderRadius: 'var(--radius-sm)',
+            background: 'var(--bg-elevated)',
             overflow: 'hidden',
           }}>
             <div
               style={{
                 width: `${progress}%`,
                 height: '100%',
-                borderRadius: 6,
-                background: 'linear-gradient(90deg,#9150fa 0%,#f3c6fe 100%)',
+                borderRadius: 'var(--radius-sm)',
+                background: 'linear-gradient(90deg, var(--accent-primary) 0%, #00cc77 100%)',
                 transition: 'width 0.4s cubic-bezier(.41,.93,.6,1)',
+                boxShadow: 'var(--shadow-glow)',
               }}
             />
           </div>
           <div style={{
-            marginTop: 4,
-            fontSize: 15,
-            color: '#fff',
+            marginTop: 'var(--space-sm)',
+            fontSize: '14px',
+            color: 'var(--text-primary)',
             fontWeight: 600,
             textAlign: 'center',
-            textShadow: '0 2px 12px #3929d050,0 1px 3px #fff2,0 0px 5px #0008',
-            letterSpacing: '.03em',
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px',
           }}>
             Analyzing your resume...
           </div>
@@ -243,39 +230,47 @@ React.useEffect(() => {
         type="button"
         onClick={handleUpload}
         disabled={loading || !file}
+        className="btn-primary"
         style={{
           width: '100%',
-          padding: '16px 0',
-          marginTop: 21,
-          background: loading || !file
-            ? 'linear-gradient(90deg,#ccc,#ece4fd 94%)'
-            : 'linear-gradient(90deg,#9150fa,#f3c6fe 98%)',
-          color: '#fff',
-          fontWeight: 700,
-          border: 'none',
-          borderRadius: 16,
-          fontSize: '19px',
-          boxShadow: '0 2px 14px #6e2ad555',
+          padding: 'var(--space-md) 0',
+          marginTop: 'var(--space-lg)',
+          fontSize: '16px',
+          textTransform: 'uppercase',
+          letterSpacing: '0.5px',
+          opacity: loading || !file ? 0.6 : 1,
           cursor: loading || !file ? 'not-allowed' : 'pointer',
-          opacity: loading || !file ? 0.61 : 1,
-          textShadow: '0 2px 18px #3a0ca388',
-          letterSpacing: '.04em',
+        }}
+        onMouseOver={e => {
+          if (!loading && file) {
+            e.currentTarget.style.background = 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)';
+            e.currentTarget.style.boxShadow = 'var(--shadow-lg), var(--shadow-glow-hover)';
+            e.currentTarget.style.transform = 'translateY(-2px)';
+          }
+        }}
+        onMouseOut={e => {
+          if (!loading && file) {
+            e.currentTarget.style.background = 'linear-gradient(135deg, var(--accent-primary) 0%, #3b82f6 100%)';
+            e.currentTarget.style.boxShadow = 'var(--shadow-md), var(--shadow-glow)';
+            e.currentTarget.style.transform = 'none';
+          }
         }}
       >
-        {loading ? 'Analyzing...' : '🚀Analyze Resume'}
+        {loading ? 'Analyzing...' : '🚀 Analyze Resume'}
       </button>
 
       {error && (
-        <div style={{
-          color: '#fff',
-          background: 'linear-gradient(94deg,#922,#e74b53 110%)',
-          borderRadius: 8,
-          marginTop: 13,
-          padding: 9,
-          fontSize: 16,
-          fontWeight: 700,
-          textShadow: '0 2px 14px #0007',
-          letterSpacing: '.02em'
+        <div className="surface" style={{
+          color: 'var(--text-error)',
+          background: 'var(--bg-surface)',
+          border: '1px solid var(--accent-error)',
+          borderRadius: 'var(--radius-md)',
+          marginTop: 'var(--space-md)',
+          padding: 'var(--space-md)',
+          fontSize: '14px',
+          fontWeight: 600,
+          textTransform: 'uppercase',
+          letterSpacing: '0.5px',
         }}>
           {error}
         </div>
@@ -283,26 +278,27 @@ React.useEffect(() => {
 
       {!loading && file && !error && (
         <div style={{
-          fontSize: 17,
-          color: '#abe497',
-          marginTop: 11,
-          fontWeight: 700,
-          textShadow: '0 1px 8px #3929d060',
+          fontSize: '14px',
+          color: 'var(--accent-success)',
+          marginTop: 'var(--space-md)',
+          fontWeight: 600,
+          textTransform: 'uppercase',
+          letterSpacing: '0.5px',
         }}>
           {avatar === '🔥' ? 'Resume ready for analysis! Hit the rocket 🚀' : null}
         </div>
       )}
 
       <div style={{
-        marginTop: 17,
-        fontSize: 13.5,
-        color: '#f7edff',
-        opacity: 0.92,
-        fontWeight: 600,
-        textShadow: '0 2px 10px #3a0ca3cc,0 1px 5px #fff2',
-        letterSpacing: '.03em'
+        marginTop: 'var(--space-lg)',
+        fontSize: '12px',
+        color: 'var(--text-muted)',
+        fontWeight: 500,
+        textTransform: 'uppercase',
+        letterSpacing: '0.5px',
+        textAlign: 'center',
       }}>
-        🛡️ No files are stored. All analysis happens instantly Only in private.
+        🛡️ No files are stored. All analysis happens instantly in private.
       </div>
     </div>
   );

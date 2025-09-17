@@ -36,38 +36,61 @@ export default function JobResultsPage() {
         style={{
           minHeight: '100vh',
           width: '100%',
-          background: 'linear-gradient(140deg, #5a367f 2%, #b497ff 70%, #f6e3ff 100%)',
-          padding: '38px 0',
+          background: 'var(--bg-primary)',
+          padding: 'var(--space-3xl) 0',
           fontFamily: 'Inter, system-ui, sans-serif',
         }}
       >
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '34px' }}>
-          <h1
+        <div style={{ textAlign: 'center', marginBottom: 'var(--space-2xl)' }}>
+          <div
+            className="surface"
             style={{
-              fontSize: '2.2em',
-              fontWeight: 800,
-              color: '#fff',
-              marginBottom: 6,
-              letterSpacing: '.03em',
-              textShadow: '0 2px 22px #9150fa33, 0 1px 4px #fff2',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 11,
+              display: 'inline-block',
+              padding: 'var(--space-sm) var(--space-lg)',
+              borderRadius: 'var(--radius-full)',
+              fontSize: '14px',
+              fontWeight: 600,
+              letterSpacing: '1px',
+              color: 'var(--accent-primary)',
+              marginBottom: 'var(--space-lg)',
+              textTransform: 'uppercase',
+              border: '1px solid var(--accent-primary)',
             }}
           >
-            <span role="img" aria-label="search">🔎</span>
+            ⚡ AI-Powered Job Search Results ⚡
+          </div>
+          <h1
+            style={{
+              fontSize: 'clamp(1.5rem, 3vw, 1.8rem)',
+              fontWeight: '700',
+              color: 'var(--text-primary)',
+              marginBottom: 'var(--space-md)',
+              letterSpacing: '-0.01em',
+              textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 'var(--space-md)',
+              flexWrap: 'wrap',
+            }}
+          >
+              <span role="img" aria-label="search" style={{ fontSize: '1em' }}>🔎</span>
             <span>
-              Dream Jobs for <span style={{ color: '#36e4ff', textShadow: '0 1px 9px #2c53a3' }}>{role}</span> in{' '}
-              <span style={{
-                background: '#5224a3',
-                color: '#ffe2ed',
-                borderRadius: 10,
-                padding: '3px 13px',
-                marginLeft: 7,
-                fontWeight: 600,
-                fontSize: '0.94em',
-                boxShadow: '0 1px 7px #9150fa24'
+              Dream Jobs for <span style={{ 
+                color: 'var(--accent-primary)', 
+                fontWeight: '600',
+              }}>{role}</span> in{' '}
+              <span className="surface" style={{
+                padding: 'var(--space-xs) var(--space-sm)',
+                borderRadius: 'var(--radius-md)',
+                fontWeight: 500,
+                fontSize: '0.85em',
+                textTransform: 'uppercase',
+                letterSpacing: '0.3px',
+                border: '1px solid var(--accent-secondary)',
+                color: 'var(--accent-secondary)',
+                background: 'var(--bg-surface)',
               }}>
                 {location}
               </span>
@@ -75,47 +98,37 @@ export default function JobResultsPage() {
           </h1>
           <div
             style={{
-              fontSize: '18px',
-              color: '#e2deff',
-              marginTop: 13,
-              fontWeight: 500,
-              opacity: 0.98,
-              letterSpacing: '.03em',
+              fontSize: 'clamp(0.9rem, 1.5vw, 1rem)',
+              color: 'var(--text-tertiary)',
+              fontWeight: 400,
+              letterSpacing: '0.2px',
             }}
           >
-            <span style={{
-              background: 'rgba(54,228,255,0.08)',
-              color: '#5224a3',
-              borderRadius: 12,
-              padding: '5px 15px',
-              fontWeight: 600,
-              fontSize: '0.96em'
-            }}>
-              AI-matched jobs, picked just for you 🚀
-            </span>
+            AI-matched jobs, picked just for you ✨
           </div>
         </div>
 
         {/* Job Cards */}
         <div
           style={{
-            maxWidth: 670,
+            maxWidth: 800,
             margin: '0 auto',
             display: 'flex',
             flexDirection: 'column',
-            gap: 32,
-            padding: '0 20px',
+            gap: 'var(--space-lg)',
+            padding: '0 var(--space-lg)',
           }}
         >
           {loading && (
-            <div style={{
+            <div className="card" style={{
               textAlign: 'center',
-              color: '#5224a3',
-              fontSize: 22,
-              fontWeight: 700,
-              letterSpacing: '.04em',
-              marginTop: 56,
-              textShadow: '0 2px 22px #b497ff33, 0 2px 5px #fff2'
+              color: 'var(--text-primary)',
+              fontSize: '18px',
+              fontWeight: 600,
+              letterSpacing: '0.5px',
+              marginTop: 'var(--space-2xl)',
+              padding: 'var(--space-2xl)',
+              textTransform: 'uppercase',
             }}>
               ⏳ Fetching your perfect matches...
             </div>
@@ -126,67 +139,65 @@ export default function JobResultsPage() {
             return (
               <div
                 key={idx}
+                className={expanded ? "card-elevated" : "card"}
                 style={{
-                  background: expanded
-                    ? 'linear-gradient(115deg,rgba(255,255,255,0.62),rgba(189,178,255,0.85) 100%)'
-                    : 'linear-gradient(120deg,rgba(255,255,255,0.27),rgba(235,211,255,0.78) 90%)',
-                  borderRadius: 34,
-                  boxShadow: expanded
-                    ? '0 12px 50px #b497ffaa, 0 2px 8px #fff8'
-                    : '0 6px 34px #b497ff22, 0 1px 7px #fff7',
-                  backdropFilter: 'blur(8px) saturate(1.1)',
                   cursor: 'pointer',
-                  border: expanded
-                    ? '2.5px solid #b497ff99'
-                    : '1.5px solid rgba(140,90,255,0.13)',
-                  padding: expanded ? '32px 34px 30px 34px' : '24px 26px',
-                  transition: 'all .2s ease',
+                  padding: expanded ? 'var(--space-2xl)' : 'var(--space-xl)',
+                  transition: 'all var(--transition-normal)',
                   animation: 'fadeInUp .6s ease',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: expanded ? 18 : 8
+                  gap: expanded ? 'var(--space-lg)' : 'var(--space-sm)',
                 }}
                 onClick={() => setExpandedIndex(expanded ? null : idx)}
               >
                 {/* Top row */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-lg)' }}>
                   <div style={{
-                    width: 54, height: 54, borderRadius: '50%',
-                    background: 'linear-gradient(135deg,#9150fa 15%,#ffe2ed 98%)',
+                    width: 60, height: 60, borderRadius: '50%',
+                    background: 'linear-gradient(135deg, var(--accent-primary) 0%, #00cc77 100%)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '2em', color: '#fff', flexShrink: 0
+                    fontSize: '1.8em', color: 'var(--bg-primary)', flexShrink: 0,
+                    boxShadow: 'var(--shadow-glow)',
                   }}>
                     {job.company_logo
                       ? (
                           <Image
                             src={job.company_logo}
                             alt={job.company}
-                            width={38}
-                            height={38}
+                            width={40}
+                            height={40}
                             style={{ borderRadius: '50%' }}
                           />
                         )
                       : <span>🏢</span>}
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, flex: 1 }}>
                     <span style={{
-                      fontWeight: 700, fontSize: '1.1em', color: '#5224a3',
-                      whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+                      fontWeight: 600, fontSize: '16px', color: 'var(--text-primary)',
+                      whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                      letterSpacing: '0.2px',
                     }}>{job.company}</span>
-                    <span style={{ color: '#f684ad', fontWeight: 500, fontSize: 14 }}>📍 {job.location}</span>
+                    <span style={{ 
+                      color: 'var(--text-secondary)', 
+                      fontWeight: 400, 
+                      fontSize: '13px',
+                      letterSpacing: '0.1px',
+                    }}>📍 {job.location}</span>
                   </div>
-                  <span style={{
-                    marginLeft: 'auto',
-                    background: '#c8aaff',
-                    color: '#3929d0',
-                    padding: '6px 12px',
-                    borderRadius: 18,
-                    fontWeight: 700,
-                    fontSize: 14,
+                  <span className="surface" style={{
+                    padding: 'var(--space-xs) var(--space-sm)',
+                    borderRadius: 'var(--radius-md)',
+                    fontWeight: 500,
+                    fontSize: '12px',
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
-                    maxWidth: 180
+                    maxWidth: 180,
+                    letterSpacing: '0.2px',
+                    color: 'var(--text-secondary)',
+                    border: '1px solid var(--bg-elevated)',
+                    background: 'var(--bg-surface)',
                   }}>
                     {job.title}
                   </span>
@@ -194,44 +205,46 @@ export default function JobResultsPage() {
 
                 {/* Summary */}
                 <div style={{
-                  fontSize: 15.5,
+                  fontSize: '13px',
                   lineHeight: 1.5,
-                  color: '#333',
-                  background: expanded ? 'rgba(255,255,255,0.85)' : 'transparent',
-                  padding: expanded ? '12px 16px' : 0,
-                  borderRadius: expanded ? 12 : 0,
-                  boxShadow: expanded ? '0 1px 6px rgba(0,0,0,0.05)' : 'none',
+                  color: 'var(--text-tertiary)',
+                  background: expanded ? 'var(--bg-surface)' : 'transparent',
+                  padding: expanded ? 'var(--space-sm)' : 0,
+                  borderRadius: expanded ? 'var(--radius-sm)' : 0,
+                  border: expanded ? '1px solid var(--bg-elevated)' : 'none',
                   whiteSpace: expanded ? 'pre-wrap' : 'nowrap',
                   overflow: expanded ? 'visible' : 'hidden',
-                  textOverflow: expanded ? 'clip' : 'ellipsis'
+                  textOverflow: expanded ? 'clip' : 'ellipsis',
+                  fontWeight: 400,
                 }}>
                   {job.summary}
                 </div>
 
-                {/* Apply button - darker */}
+                {/* Apply button */}
                 {expanded && (
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 6 }}>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 'var(--space-sm)' }}>
                     <a
                       href={job.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={e => e.stopPropagation()}
+                      className="btn-primary"
                       style={{
-                        background: 'linear-gradient(95deg, #1a338a 0%, #1f155d 100%)',
-                        color: '#fff',
-                        fontWeight: 700,
-                        fontSize: '0.95em',
-                        borderRadius: 8,
+                        padding: 'var(--space-sm) var(--space-lg)',
+                        fontSize: '14px',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
                         textDecoration: 'none',
-                        padding: '10px 16px',
-                        boxShadow: '0 2px 12px rgba(26,51,138,0.4)',
-                        transition: 'all 0.15s'
                       }}
                       onMouseOver={e => {
-                        (e.currentTarget as HTMLElement).style.background = 'linear-gradient(95deg, #0f1c4f 0%, #1f155d 100%)';
+                        (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)';
+                        (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-lg), var(--shadow-glow-hover)';
+                        (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
                       }}
                       onMouseOut={e => {
-                        (e.currentTarget as HTMLElement).style.background = 'linear-gradient(95deg, #1a338a 0%, #1f155d 100%)';
+                        (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, var(--accent-primary) 0%, #3b82f6 100%)';
+                        (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-md), var(--shadow-glow)';
+                        (e.currentTarget as HTMLElement).style.transform = 'none';
                       }}
                     >
                       🔗 Apply / See Details
@@ -243,13 +256,14 @@ export default function JobResultsPage() {
           })}
 
           {!loading && jobs.length === 0 && (
-            <div style={{
+            <div className="card" style={{
               textAlign: 'center',
-              color: '#fff',
-              fontWeight: 700,
-              fontSize: '1.23em',
-              padding: '46px 0 28px',
-              textShadow: '0 2px 20px #b497ff55'
+              color: 'var(--text-primary)',
+              fontWeight: 600,
+              fontSize: '18px',
+              padding: 'var(--space-2xl)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px',
             }}>
               {`😵‍💫 No jobs found for "${role}" at "${location}"`}
             </div>

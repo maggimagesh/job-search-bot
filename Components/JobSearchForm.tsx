@@ -41,111 +41,110 @@ export default function JobSearchForm({
     fetchPopularData();
   }, []);
 
-  // --- Gradient theme for the Search Jobs button ---
-  const searchButtonGradient = loading
-    ? 'linear-gradient(90deg,#dbd7fb,#ebd9fa 94%)'
-    : 'linear-gradient(90deg, #9150fa 0%, #f3c6fe 100%)';
 
   return (
     <form
       onSubmit={searchJobs}
+      className="card"
       style={{
-        background: 'rgba(255,255,255,0.05)',
-        padding: '30px',
-        borderRadius: '16px',
         width: '100%',
         maxWidth: '900px',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
+        margin: '0 auto',
+        padding: 'var(--space-2xl)',
       }}
     >
       {/* Role Input */}
-      <label style={{ display: 'block', fontSize: '16px', marginBottom: '8px' }}>
-        <FaBriefcase style={{ marginRight: '6px' }} /> Job Role
+      <label style={{ 
+        display: 'block', 
+        fontSize: '14px', 
+        marginBottom: 'var(--space-sm)',
+        color: 'var(--text-secondary)',
+        fontWeight: '600',
+        textTransform: 'uppercase',
+        letterSpacing: '0.5px'
+      }}>
+        <FaBriefcase style={{ marginRight: 'var(--space-sm)', color: 'var(--accent-primary)' }} /> Job Role
       </label>
       <input
         value={role}
         onChange={(e) => setRole(e.target.value)}
         placeholder="Enter job role"
+        className="input"
         style={{
-          width: '100%',
-          padding: '12px 16px',
-          borderRadius: '8px',
-          border: '1px solid rgba(255,255,255,0.3)',
-          background: 'transparent',
-          color: '#fff',
-          marginBottom: '20px',
-          fontSize: '16px'
+          marginBottom: 'var(--space-lg)',
         }}
       />
-      <div style={{ marginBottom: '20px' }}>
-        <span style={{ fontSize: '14px', marginRight: '8px', opacity: 0.8 }}>
+      <div style={{ marginBottom: 'var(--space-lg)' }}>
+        <span style={{ 
+          fontSize: '12px', 
+          marginRight: 'var(--space-sm)', 
+          color: 'var(--text-tertiary)',
+          fontWeight: '600',
+          textTransform: 'uppercase',
+          letterSpacing: '0.5px'
+        }}>
           {dataLoading ? 'Loading Popular Roles...' : 'Popular Roles:'}
         </span>
         {!dataLoading && popularRoles.map((r) => (
           <button
-            key={r} type="button"
+            key={r} 
+            type="button"
             onClick={() => setRole(r)}
+            className="btn-secondary"
             style={{
-              margin: '4px',
-              padding: '6px 12px',
-              background: 'rgba(255,255,255,0.1)',
-              border: 'none',
-              borderRadius: '12px',
-              color: '#fff',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.background = 'rgba(255,255,255,0.2)';
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+              margin: 'var(--space-xs)',
+              padding: 'var(--space-sm) var(--space-md)',
+              fontSize: '12px',
+              textTransform: 'uppercase',
+              letterSpacing: '0.3px',
             }}
           >{r}</button>
         ))}
       </div>
       {/* Location Input */}
-      <label style={{ display: 'block', fontSize: '16px', marginBottom: '8px' }}>
-        <FaMapMarkerAlt style={{ marginRight: '6px' }} /> Location
+      <label style={{ 
+        display: 'block', 
+        fontSize: '14px', 
+        marginBottom: 'var(--space-sm)',
+        color: 'var(--text-secondary)',
+        fontWeight: '600',
+        textTransform: 'uppercase',
+        letterSpacing: '0.5px'
+      }}>
+        <FaMapMarkerAlt style={{ marginRight: 'var(--space-sm)', color: 'var(--accent-primary)' }} /> Location
       </label>
       <input
         value={location}
         onChange={(e) => setLocation(e.target.value)}
         placeholder="Enter location"
+        className="input"
         style={{
-          width: '100%',
-          padding: '12px 16px',
-          borderRadius: '8px',
-          border: '1px solid rgba(255,255,255,0.3)',
-          background: 'transparent',
-          color: '#fff',
-          marginBottom: '20px',
-          fontSize: '16px'
+          marginBottom: 'var(--space-lg)',
         }}
       />
-      <div style={{ marginBottom: '20px' }}>
-        <span style={{ fontSize: '14px', marginRight: '8px', opacity: 0.8 }}>
+      <div style={{ marginBottom: 'var(--space-lg)' }}>
+        <span style={{ 
+          fontSize: '12px', 
+          marginRight: 'var(--space-sm)', 
+          color: 'var(--text-tertiary)',
+          fontWeight: '600',
+          textTransform: 'uppercase',
+          letterSpacing: '0.5px'
+        }}>
           {dataLoading ? 'Loading Trending Locations...' : 'Trending Locations:'}
         </span>
         {!dataLoading && trendingLocations.map((loc) => (
           <button
-            key={loc} type="button"
+            key={loc} 
+            type="button"
             onClick={() => setLocation(loc)}
+            className="btn-secondary"
             style={{
-              margin: '4px',
-              padding: '6px 12px',
-              background: 'rgba(0,200,255,0.2)',
-              border: 'none', 
-              borderRadius: '12px',
-              color: '#fff', 
-              cursor: 'pointer',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.background = 'rgba(0,200,255,0.3)';
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.background = 'rgba(0,200,255,0.2)';
+              margin: 'var(--space-xs)',
+              padding: 'var(--space-sm) var(--space-md)',
+              fontSize: '12px',
+              textTransform: 'uppercase',
+              letterSpacing: '0.3px',
             }}
           >{loc}</button>
         ))}
@@ -153,38 +152,34 @@ export default function JobSearchForm({
       <button
         type="submit"
         disabled={loading}
+        className="btn-primary"
         style={{
           width: '100%',
-          padding: '14px',
-          fontSize: '18px',
-          fontWeight: 'bold',
-          border: 'none',
-          borderRadius: '14px',
-          background: searchButtonGradient,
-          color: '#fff', 
+          padding: 'var(--space-md)',
+          fontSize: '16px',
+          fontWeight: '600',
           cursor: loading ? 'not-allowed' : 'pointer',
           opacity: loading ? 0.7 : 1,
-          boxShadow: loading
-            ? '0px 2px 10px #e4e4fa'
-            : '0px 4px 20px rgba(145,80,250,0.21)',
-          transition: 'box-shadow .19s, transform .15s, background .18s',
-          marginTop: '18px',
+          marginTop: 'var(--space-lg)',
+          textTransform: 'uppercase',
+          letterSpacing: '0.5px',
         }}
         onMouseOver={(e) => {
           if (!loading) {
-            e.currentTarget.style.boxShadow = '0px 8px 38px #9150fa33';
-            e.currentTarget.style.transform = 'scale(1.03)';
+            e.currentTarget.style.background = 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)';
+            e.currentTarget.style.boxShadow = 'var(--shadow-lg), var(--shadow-glow-hover)';
+            e.currentTarget.style.transform = 'translateY(-2px)';
           }
         }}
         onMouseOut={(e) => {
           if (!loading) {
-            e.currentTarget.style.boxShadow =
-              '0px 4px 20px rgba(145,80,250,0.21)';
+            e.currentTarget.style.background = 'linear-gradient(135deg, var(--accent-primary) 0%, #3b82f6 100%)';
+            e.currentTarget.style.boxShadow = 'var(--shadow-md), var(--shadow-glow)';
             e.currentTarget.style.transform = 'none';
           }
         }}
       >
-        <FaSearch style={{ marginRight: '8px' }} /> 
+        <FaSearch style={{ marginRight: 'var(--space-sm)' }} /> 
         {loading ? 'Searching...' : 'Search Jobs'}
       </button>
     </form>
