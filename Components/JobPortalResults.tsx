@@ -158,20 +158,24 @@ export default function JobPortalResults({ portals, role, location }: any) {
 
   return (
     <div
+      className="card"
       style={{
-        background: 'rgba(255,255,255,0.05)',
-        padding: '30px',
-        borderRadius: '16px',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
         transform: isBackgroundVisible ? 'translateY(0)' : 'translateY(100%)',
         transition: 'transform 0.744s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.744s ease-out',
         opacity: isBackgroundVisible ? 1 : 0,
+        marginBottom: 'var(--space-lg)',
+        padding: 'var(--space-2xl)',
       }}
     >
-      <div style={{ fontWeight: 600, fontSize: "1.2rem", marginBottom: 15 }}>
+      <div style={{ 
+        fontWeight: 600, 
+        fontSize: "1.2rem", 
+        marginBottom: 'var(--space-md)',
+        color: 'var(--text-primary)'
+      }}>
         Search Results for{" "}
-        <span style={{ color: "#00fff6", fontWeight: 700 }}>&ldquo;{role}&rdquo;</span> in{" "}
-        <span style={{ color: "#a786ff", fontWeight: 700 }}>{location}</span>
+        <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>&ldquo;{role}&rdquo;</span> in{" "}
+        <span style={{ color: 'var(--accent-secondary)', fontWeight: 700 }}>{location}</span>
       </div>
       <div
         style={{
@@ -187,27 +191,26 @@ export default function JobPortalResults({ portals, role, location }: any) {
             href={p.url}
             target="_blank"
             rel="noopener noreferrer"
+            className="card-elevated"
             style={{
               display: "flex",
               alignItems: "center",
-              background: "rgba(255,255,255,0.08)",
-              borderRadius: 15,
-              padding: "19px 16px",
               textDecoration: "none",
-              color: "#fff",
-              fontSize: "17px",
-              gap: 13,
+              color: 'var(--text-primary)',
+              fontSize: "16px",
+              gap: 'var(--space-md)',
               transform: isCardsVisible ? 'translateX(0) scale(1)' : 'translateX(-100px) scale(0.8)',
               opacity: isCardsVisible ? 1 : 0,
               transition: `all 0.652s cubic-bezier(0.68, -0.55, 0.265, 1.55)`,
               transitionDelay: `${i * 0.13}s`,
+              padding: 'var(--space-lg)',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(255,255,255,0.15)';
-              e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
+              e.currentTarget.style.background = 'var(--bg-tertiary)';
+              e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
+              e.currentTarget.style.background = 'var(--bg-elevated)';
               e.currentTarget.style.transform = 'translateY(0) scale(1)';
             }}
           >
@@ -215,9 +218,9 @@ export default function JobPortalResults({ portals, role, location }: any) {
               {portalIcons[p.name] || <span style={{ fontSize: 24 }}>🌐</span>}
             </div>
             <div>
-              <span style={{ fontWeight: 700 }}>{p.name}</span>
+              <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{p.name}</span>
               <br />
-              <span style={{ fontSize: 13, color: "#bdb6e9" }}>
+              <span style={{ fontSize: 13, color: 'var(--text-tertiary)' }}>
                 Search results page
               </span>
             </div>
