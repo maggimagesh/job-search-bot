@@ -1,9 +1,12 @@
 import { FaSearch, FaMapMarkerAlt, FaBriefcase } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
+import { useTheme } from '../contexts/ThemeContext';
+import GoogleIcons from './GoogleIcons';
 
 export default function JobSearchForm({
   role, setRole, location, setLocation, searchJobs, loading
 }: any) {
+  const { theme } = useTheme();
   const [popularRoles, setPopularRoles] = useState<string[]>([]);
   const [trendingLocations, setTrendingLocations] = useState<string[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
@@ -55,15 +58,22 @@ export default function JobSearchForm({
     >
       {/* Role Input */}
       <label style={{ 
-        display: 'block', 
         fontSize: '14px', 
         marginBottom: 'var(--space-sm)',
         color: 'var(--text-secondary)',
-        fontWeight: '600',
-        textTransform: 'uppercase',
-        letterSpacing: '0.5px'
+        fontWeight: theme === 'google' ? 'var(--font-weight-medium)' : '600',
+        textTransform: theme === 'google' ? 'none' : 'uppercase',
+        letterSpacing: theme === 'google' ? '0.1px' : '0.5px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'var(--space-sm)'
       }}>
-        <FaBriefcase style={{ marginRight: 'var(--space-sm)', color: 'var(--accent-primary)' }} /> Job Role
+        {theme === 'google' ? (
+          <GoogleIcons name="work" size={20} color="var(--google-blue)" />
+        ) : (
+          <FaBriefcase style={{ color: 'var(--accent-primary)' }} />
+        )}
+        Job Role
       </label>
       <input
         value={role}
@@ -79,9 +89,9 @@ export default function JobSearchForm({
           fontSize: '12px', 
           marginRight: 'var(--space-sm)', 
           color: 'var(--text-tertiary)',
-          fontWeight: '600',
-          textTransform: 'uppercase',
-          letterSpacing: '0.5px'
+          fontWeight: theme === 'google' ? 'var(--font-weight-medium)' : '600',
+          textTransform: theme === 'google' ? 'none' : 'uppercase',
+          letterSpacing: theme === 'google' ? '0.1px' : '0.5px'
         }}>
           {dataLoading ? 'Loading Popular Roles...' : 'Popular Roles:'}
         </span>
@@ -93,25 +103,33 @@ export default function JobSearchForm({
             className="btn-secondary"
             style={{
               margin: 'var(--space-xs)',
-              padding: 'var(--space-sm) var(--space-md)',
+              padding: theme === 'google' ? '8px 16px' : 'var(--space-sm) var(--space-md)',
               fontSize: '12px',
-              textTransform: 'uppercase',
-              letterSpacing: '0.3px',
+              textTransform: theme === 'google' ? 'none' : 'uppercase',
+              letterSpacing: theme === 'google' ? '0.1px' : '0.3px',
+              borderRadius: theme === 'google' ? '16px' : 'var(--radius-sm)',
             }}
           >{r}</button>
         ))}
       </div>
       {/* Location Input */}
       <label style={{ 
-        display: 'block', 
         fontSize: '14px', 
         marginBottom: 'var(--space-sm)',
         color: 'var(--text-secondary)',
-        fontWeight: '600',
-        textTransform: 'uppercase',
-        letterSpacing: '0.5px'
+        fontWeight: theme === 'google' ? 'var(--font-weight-medium)' : '600',
+        textTransform: theme === 'google' ? 'none' : 'uppercase',
+        letterSpacing: theme === 'google' ? '0.1px' : '0.5px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'var(--space-sm)'
       }}>
-        <FaMapMarkerAlt style={{ marginRight: 'var(--space-sm)', color: 'var(--accent-primary)' }} /> Location
+        {theme === 'google' ? (
+          <GoogleIcons name="location" size={20} color="var(--google-blue)" />
+        ) : (
+          <FaMapMarkerAlt style={{ color: 'var(--accent-primary)' }} />
+        )}
+        Location
       </label>
       <input
         value={location}
@@ -127,9 +145,9 @@ export default function JobSearchForm({
           fontSize: '12px', 
           marginRight: 'var(--space-sm)', 
           color: 'var(--text-tertiary)',
-          fontWeight: '600',
-          textTransform: 'uppercase',
-          letterSpacing: '0.5px'
+          fontWeight: theme === 'google' ? 'var(--font-weight-medium)' : '600',
+          textTransform: theme === 'google' ? 'none' : 'uppercase',
+          letterSpacing: theme === 'google' ? '0.1px' : '0.5px'
         }}>
           {dataLoading ? 'Loading Trending Locations...' : 'Trending Locations:'}
         </span>
@@ -141,10 +159,11 @@ export default function JobSearchForm({
             className="btn-secondary"
             style={{
               margin: 'var(--space-xs)',
-              padding: 'var(--space-sm) var(--space-md)',
+              padding: theme === 'google' ? '8px 16px' : 'var(--space-sm) var(--space-md)',
               fontSize: '12px',
-              textTransform: 'uppercase',
-              letterSpacing: '0.3px',
+              textTransform: theme === 'google' ? 'none' : 'uppercase',
+              letterSpacing: theme === 'google' ? '0.1px' : '0.3px',
+              borderRadius: theme === 'google' ? '16px' : 'var(--radius-sm)',
             }}
           >{loc}</button>
         ))}
@@ -155,31 +174,51 @@ export default function JobSearchForm({
         className="btn-primary"
         style={{
           width: '100%',
-          padding: 'var(--space-md)',
+          padding: theme === 'google' ? '12px 24px' : 'var(--space-md)',
           fontSize: '16px',
-          fontWeight: '600',
+          fontWeight: theme === 'google' ? 'var(--font-weight-medium)' : '600',
           cursor: loading ? 'not-allowed' : 'pointer',
           opacity: loading ? 0.7 : 1,
           marginTop: 'var(--space-lg)',
-          textTransform: 'uppercase',
-          letterSpacing: '0.5px',
+          textTransform: theme === 'google' ? 'none' : 'uppercase',
+          letterSpacing: theme === 'google' ? '0.1px' : '0.5px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 'var(--space-sm)',
         }}
         onMouseOver={(e) => {
           if (!loading) {
-            e.currentTarget.style.background = 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)';
-            e.currentTarget.style.boxShadow = 'var(--shadow-lg), var(--shadow-glow-hover)';
-            e.currentTarget.style.transform = 'translateY(-2px)';
+            if (theme === 'google') {
+              e.currentTarget.style.background = 'var(--google-blue-hover)';
+              e.currentTarget.style.boxShadow = '0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15)';
+              e.currentTarget.style.transform = 'translateY(-1px)';
+            } else {
+              e.currentTarget.style.background = 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)';
+              e.currentTarget.style.boxShadow = 'var(--shadow-lg), var(--shadow-glow-hover)';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+            }
           }
         }}
         onMouseOut={(e) => {
           if (!loading) {
-            e.currentTarget.style.background = 'linear-gradient(135deg, var(--accent-primary) 0%, #3b82f6 100%)';
-            e.currentTarget.style.boxShadow = 'var(--shadow-md), var(--shadow-glow)';
-            e.currentTarget.style.transform = 'none';
+            if (theme === 'google') {
+              e.currentTarget.style.background = 'var(--google-blue)';
+              e.currentTarget.style.boxShadow = '0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15)';
+              e.currentTarget.style.transform = 'none';
+            } else {
+              e.currentTarget.style.background = 'linear-gradient(135deg, var(--accent-primary) 0%, #3b82f6 100%)';
+              e.currentTarget.style.boxShadow = 'var(--shadow-md), var(--shadow-glow)';
+              e.currentTarget.style.transform = 'none';
+            }
           }
         }}
       >
-        <FaSearch style={{ marginRight: 'var(--space-sm)' }} /> 
+        {theme === 'google' ? (
+          <GoogleIcons name="search" size={20} color="var(--text-on-primary)" />
+        ) : (
+          <FaSearch />
+        )}
         {loading ? 'Searching...' : 'Search Jobs'}
       </button>
     </form>

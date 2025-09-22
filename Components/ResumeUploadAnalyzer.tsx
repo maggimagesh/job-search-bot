@@ -1,13 +1,11 @@
 'use client';
 import React, { useRef, useState } from 'react';
-import { useRouter } from 'next/router';
 import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs';
 
 GlobalWorkerOptions.workerSrc = new URL(pdfWorker, import.meta.url).toString();
 
 export default function ResumeUploadAnalyzer() {
-  const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -81,22 +79,34 @@ React.useEffect(() => {
     setError(null);
     try {
       const resumeText = await fileToText(file);
+      
       const res = await fetch('/api/analyze-resume', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ resumeText }),
       });
+      
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Analysis failed');
+      
+      if (!res.ok) {
+        throw new Error(data.error || 'Analysis failed');
+      }
+      
+      if (!data.analysis || !data.analysis.bestRole || !data.analysis.bestLocation) {
+        throw new Error('Analysis incomplete - missing role or location');
+      }
+      
       setTimeout(() => setProgress(100), 600);
       setTimeout(() => {
-        router.push(
-          `/job-results?role=${encodeURIComponent(
-            data.analysis.bestRole
-          )}&location=${encodeURIComponent(data.analysis.bestLocation)}`
-        );
+        const url = `/job-results?role=${encodeURIComponent(
+          data.analysis.bestRole
+        )}&location=${encodeURIComponent(data.analysis.bestLocation)}`;
+        
+        // Use window.location for reliable navigation
+        window.location.href = url;
       }, 1200);
     } catch (err: any) {
+      console.error('Upload error:', err);
       setError('🚫 ' + (err.message ?? 'Error analyzing resume'));
     } finally {
       setLoading(false);
@@ -258,6 +268,7 @@ React.useEffect(() => {
       >
         {loading ? 'Analyzing...' : '🚀 Analyze Resume'}
       </button>
+
 
       {error && (
         <div className="surface" style={{

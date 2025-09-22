@@ -6,6 +6,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { role, location, page = '1' } = req.query;
     const perPage = 10;  // Jobs per page
     
+    // Check if API keys are available
+    if (!process.env.ADZUNA_APP_ID || !process.env.ADZUNA_APP_KEY) {
+      console.error('Missing Adzuna API keys');
+      return res.status(500).json({ error: 'API configuration missing' });
+    }
+    
     // Call Adzuna API
     const adzunaUrl = `https://api.adzuna.com/v1/api/jobs/in/search/${page}?app_id=${process.env.ADZUNA_APP_ID}&app_key=${process.env.ADZUNA_APP_KEY}&results_per_page=${perPage}&what=${encodeURIComponent(role as string)}&where=${encodeURIComponent(location as string)}`;
     const adzunaResp = await axios.get(adzunaUrl);

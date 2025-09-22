@@ -1,10 +1,11 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { ThemeProvider } from '../contexts/ThemeContext';
 import '../styles/globals.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <ThemeProvider>
       <Head>
         {/* Preload critical resources */}
         <link rel="preload" href="/favicon.ico" as="image" />
@@ -29,8 +30,6 @@ export default function App({ Component, pageProps }: AppProps) {
         {/* PWA support */}
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/favicon.ico" />
-        
-
       </Head>
       
       {/* Skip link for accessibility */}
@@ -39,6 +38,6 @@ export default function App({ Component, pageProps }: AppProps) {
       </a>
       
       <Component {...pageProps} />
-    </>
+    </ThemeProvider>
   );
 }

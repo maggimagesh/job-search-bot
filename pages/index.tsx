@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useTheme } from '../contexts/ThemeContext';
 import JobSearchForm from '../Components/JobSearchForm';
 import JobPortalResults from '../Components/JobPortalResults';
 import ProTipBar from '../Components/ProTipBar';
 import AdzunaLiveJobs from '../Components/AdzunaLiveJobs';
+import ThemeToggle from '../Components/ThemeToggle';
+import GoogleIcons from '../Components/GoogleIcons';
 
 export default function Home() {
   const router = useRouter();
+  const { theme } = useTheme();
   const [role, setRole] = useState('');
   const [location, setLocation] = useState('');
   const [data, setData] = useState<any>(null);
@@ -27,19 +31,21 @@ export default function Home() {
   }
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: 'var(--bg-primary)',
-        color: 'var(--text-primary)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: 'var(--space-3xl) var(--space-lg)',
-        fontFamily: 'Inter, sans-serif',
-        position: 'relative',
-      }}
-    >
+    <div className={`theme-${theme}`}>
+      <ThemeToggle />
+      <div
+        style={{
+          minHeight: '100vh',
+          background: 'var(--bg-primary)',
+          color: 'var(--text-primary)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding: 'var(--space-3xl) var(--space-lg)',
+          fontFamily: 'var(--font-family)',
+          position: 'relative',
+        }}
+      >
       <div style={{ textAlign: 'center', marginBottom: 'var(--space-2xl)' }}>
         <div
           className="surface"
@@ -60,15 +66,18 @@ export default function Home() {
         </div>
         <h1 style={{
           fontSize: 'clamp(3rem, 6vw, 4.5rem)',
-          fontWeight: '900',
+          fontWeight: theme === 'google' ? 'var(--font-weight-bold)' : '900',
           margin: '0 0 var(--space-md)',
-          letterSpacing: '-0.03em',
+          letterSpacing: theme === 'google' ? '-0.02em' : '-0.03em',
           color: 'var(--text-primary)',
-          textShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
-          background: 'linear-gradient(135deg, #ffffff 0%, var(--accent-primary) 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
+          textShadow: theme === 'google' ? 'none' : '0 4px 20px rgba(0, 0, 0, 0.5)',
+          background: theme === 'google' 
+            ? 'none' 
+            : 'linear-gradient(135deg, #ffffff 0%, var(--accent-primary) 100%)',
+          WebkitBackgroundClip: theme === 'google' ? 'initial' : 'text',
+          WebkitTextFillColor: theme === 'google' ? 'var(--text-primary)' : 'transparent',
+          backgroundClip: theme === 'google' ? 'initial' : 'text',
+          fontFamily: 'var(--font-family)',
         }}>
           Dream Job Finder
         </h1>
@@ -77,9 +86,10 @@ export default function Home() {
           maxWidth: '800px',
           margin: '0 auto',
           color: 'var(--text-secondary)',
-          fontWeight: 400,
+          fontWeight: theme === 'google' ? 'var(--font-weight-normal)' : 400,
           lineHeight: 1.6,
-          letterSpacing: '0.3px',
+          letterSpacing: theme === 'google' ? '0.1px' : '0.3px',
+          fontFamily: 'var(--font-family)',
         }}>
           Enter your role and location to unlock opportunities across all major job portals. Your career upgrade starts here.
         </p>
@@ -118,24 +128,43 @@ export default function Home() {
         className="btn-secondary"
         style={{
           marginTop: 'var(--space-xl)',
-          padding: 'var(--space-md) var(--space-xl)',
+          padding: theme === 'google' ? '12px 24px' : 'var(--space-md) var(--space-xl)',
           fontSize: '16px',
-          fontWeight: '600',
-          letterSpacing: '0.5px',
+          fontWeight: theme === 'google' ? 'var(--font-weight-medium)' : '600',
+          letterSpacing: theme === 'google' ? '0.1px' : '0.5px',
           outline: 'none',
           position: 'relative',
-          textTransform: 'uppercase',
+          textTransform: theme === 'google' ? 'none' : 'uppercase',
+          borderRadius: theme === 'google' ? '24px' : 'var(--radius-md)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'var(--space-sm)',
         }}
         onMouseOver={e => {
-          (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-lg), var(--shadow-glow)';
-          (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+          if (theme === 'google') {
+            (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15)';
+            (e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)';
+          } else {
+            (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-lg), var(--shadow-glow)';
+            (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+          }
         }}
         onMouseOut={e => {
-          (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-sm)';
-          (e.currentTarget as HTMLElement).style.transform = 'none';
+          if (theme === 'google') {
+            (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15)';
+            (e.currentTarget as HTMLElement).style.transform = 'none';
+          } else {
+            (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-sm)';
+            (e.currentTarget as HTMLElement).style.transform = 'none';
+          }
         }}
       >
-        🚀 Analyze your resume for better results
+        {theme === 'google' ? (
+          <GoogleIcons name="rocket" size={20} color="var(--accent-primary)" />
+        ) : (
+          '🚀'
+        )}
+        Analyze your resume for better results
       </button>
 
       <div style={{ maxWidth: '900px', marginTop: 'var(--space-xl)', width: '100%' }}>
@@ -166,6 +195,7 @@ export default function Home() {
             <AdzunaLiveJobs jobs={data.jobs_from_adzuna} />
           </>
         )}
+      </div>
       </div>
     </div>
   );

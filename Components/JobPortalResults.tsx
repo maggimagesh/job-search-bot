@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useTheme } from '../contexts/ThemeContext';
+import GoogleIcons from './GoogleIcons';
 
 const portalIcons: any = {
   Naukri: (
@@ -134,6 +136,7 @@ const portalIcons: any = {
 };
 
 export default function JobPortalResults({ portals, role, location }: any) {
+  const { theme } = useTheme();
   const [isBackgroundVisible, setIsBackgroundVisible] = useState(false);
   const [isCardsVisible, setIsCardsVisible] = useState(false);
 
@@ -168,14 +171,21 @@ export default function JobPortalResults({ portals, role, location }: any) {
       }}
     >
       <div style={{ 
-        fontWeight: 600, 
+        fontWeight: theme === 'google' ? 'var(--font-weight-semibold)' : 600, 
         fontSize: "1.2rem", 
         marginBottom: 'var(--space-md)',
-        color: 'var(--text-primary)'
+        color: 'var(--text-primary)',
+        fontFamily: 'var(--font-family)'
       }}>
         Search Results for{" "}
-        <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>&ldquo;{role}&rdquo;</span> in{" "}
-        <span style={{ color: 'var(--accent-secondary)', fontWeight: 700 }}>{location}</span>
+        <span style={{ 
+          color: theme === 'google' ? 'var(--google-blue)' : 'var(--accent-primary)', 
+          fontWeight: theme === 'google' ? 'var(--font-weight-bold)' : 700 
+        }}>&ldquo;{role}&rdquo;</span> in{" "}
+        <span style={{ 
+          color: theme === 'google' ? 'var(--accent-primary)' : 'var(--accent-secondary)', 
+          fontWeight: theme === 'google' ? 'var(--font-weight-bold)' : 700 
+        }}>{location}</span>
       </div>
       <div
         style={{
@@ -225,7 +235,11 @@ export default function JobPortalResults({ portals, role, location }: any) {
               </span>
             </div>
             <div style={{ marginLeft: "auto", fontSize: 24, opacity: 0.55 }}>
-              🔎
+              {theme === 'google' ? (
+                <GoogleIcons name="arrow_forward" size={24} color="var(--text-tertiary)" />
+              ) : (
+                '🔎'
+              )}
             </div>
           </a>
         ))}
