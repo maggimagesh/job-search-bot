@@ -1,6 +1,9 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useTheme } from '../contexts/ThemeContext';
+import ThemeToggle from '../Components/ThemeToggle';
+import GoogleIcons from '../Components/GoogleIcons';
 
 interface Job {
   title: string;
@@ -13,6 +16,7 @@ interface Job {
 
 export default function JobResultsPage() {
   const router = useRouter();
+  const { theme } = useTheme();
   const { role, location } = router.query;
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(false);
@@ -21,24 +25,29 @@ export default function JobResultsPage() {
   useEffect(() => {
     if (role && location) {
       setLoading(true);
-      fetch(
-        `/api/search-jobs?role=${encodeURIComponent(role as string)}&location=${encodeURIComponent(location as string)}`
-      )
+      const apiUrl = `/api/search-jobs?role=${encodeURIComponent(role as string)}&location=${encodeURIComponent(location as string)}`;
+      fetch(apiUrl)
         .then((res) => res.json())
-        .then((data) => setJobs(data.jobs || []))
+        .then((data) => {
+          setJobs(data.jobs || []);
+        })
+        .catch((error) => {
+          console.error('Error fetching jobs:', error);
+        })
         .finally(() => setLoading(false));
     }
   }, [role, location]);
-
+  
   return (
-    <>
+    <div className={`theme-${theme}`}>
+      <ThemeToggle />
       <div
         style={{
           minHeight: '100vh',
           width: '100%',
           background: 'var(--bg-primary)',
           padding: 'var(--space-3xl) 0',
-          fontFamily: 'Inter, system-ui, sans-serif',
+          fontFamily: 'var(--font-family)',
         }}
       >
         {/* Header */}
@@ -75,7 +84,11 @@ export default function JobResultsPage() {
               flexWrap: 'wrap',
             }}
           >
+              {theme === 'google' ? (
+              <GoogleIcons name="search" size={24} color="var(--google-blue)" />
+            ) : (
               <span role="img" aria-label="search" style={{ fontSize: '1em' }}>🔎</span>
+            )}
             <span>
               Dream Jobs for <span style={{ 
                 color: 'var(--accent-primary)', 
@@ -277,6 +290,6 @@ export default function JobResultsPage() {
           to { opacity: 1; transform: translateY(0);}
         }
       `}</style>
-    </>
+    </div>
   );
 }

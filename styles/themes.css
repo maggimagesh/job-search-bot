@@ -1,0 +1,453 @@
+/* A/B Testing Theme System */
+
+/* Luxury Theme (Current) */
+.theme-luxury {
+  /* Dark Luxury Colors */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --bg-tertiary: #1a1a1a;
+  --bg-surface: #1e1e1e;
+  --bg-elevated: #252525;
+  
+  /* Text Colors - High Contrast */
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --text-tertiary: #999999;
+  --text-muted: #666666;
+  
+  /* Accent Colors - Elegant & Refined */
+  --accent-primary: #60a5fa;
+  --accent-secondary: #f472b6;
+  --accent-gold: #fbbf24;
+  --accent-silver: #9ca3af;
+  --accent-success: #34d399;
+  --accent-error: #f87171;
+  --accent-warning: #fbbf24;
+  
+  /* Typography */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+  
+  /* Shadows - Luxury Depth */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 20px rgba(96, 165, 250, 0.3);
+  --shadow-glow-hover: 0 0 30px rgba(96, 165, 250, 0.5);
+  
+  /* Transitions */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Google Material Design 3 Theme */
+.theme-google {
+  /* Google Material Design 3 Color System */
+  --bg-primary: #fefbff;
+  --bg-secondary: #f7f2fa;
+  --bg-tertiary: #f0eaf4;
+  --bg-surface: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-surface-variant: #f3e5f5;
+  --bg-surface-container: #f3e5f5;
+  --bg-surface-container-high: #ece6f0;
+  --bg-surface-container-highest: #e6e0e9;
+  
+  /* Text Colors - Material Design 3 */
+  --text-primary: #1c1b1f;
+  --text-secondary: #49454f;
+  --text-tertiary: #79747e;
+  --text-muted: #cac4d0;
+  --text-on-primary: #ffffff;
+  --text-on-secondary: #ffffff;
+  --text-on-surface: #1c1b1f;
+  --text-on-surface-variant: #49454f;
+  
+  /* Google Brand Colors */
+  --accent-primary: #6750a4;
+  --accent-primary-container: #eaddff;
+  --accent-secondary: #625b71;
+  --accent-secondary-container: #e8def8;
+  --accent-tertiary: #7d5260;
+  --accent-tertiary-container: #ffd8e4;
+  --accent-error: #ba1a1a;
+  --accent-error-container: #ffdad6;
+  --accent-success: #006e1c;
+  --accent-success-container: #9cf99d;
+  --accent-warning: #7c2e0a;
+  --accent-warning-container: #ffdcc2;
+  
+  /* Google Blue Accent */
+  --google-blue: #1a73e8;
+  --google-blue-hover: #1557b0;
+  --google-blue-light: #e8f0fe;
+  
+  /* Google Search Colors */
+  --google-search-blue: #1a73e8;
+  --google-search-red: #ea4335;
+  --google-search-yellow: #fbbc04;
+  --google-search-green: #34a853;
+  
+  /* Typography - Google Fonts */
+  --font-family: 'Google Sans', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* Material Design 3 Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  --shadow-md: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+  --shadow-lg: 0 2px 3px 0 rgba(60, 64, 67, 0.3), 0 6px 10px 4px rgba(60, 64, 67, 0.15);
+  --shadow-xl: 0 4px 4px 0 rgba(60, 64, 67, 0.3), 0 8px 12px 6px rgba(60, 64, 67, 0.15);
+  --shadow-glow: 0 0 0 1px rgba(26, 115, 232, 0.12), 0 0 0 0 rgba(26, 115, 232, 0.12);
+  --shadow-glow-hover: 0 0 0 1px rgba(26, 115, 232, 0.2), 0 0 0 0 rgba(26, 115, 232, 0.2);
+  
+  /* Material Design 3 Transitions */
+  --transition-fast: 0.1s cubic-bezier(0.2, 0, 0, 1);
+  --transition-normal: 0.2s cubic-bezier(0.2, 0, 0, 1);
+  --transition-slow: 0.3s cubic-bezier(0.2, 0, 0, 1);
+  --transition-bounce: 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Common spacing and border radius */
+:root {
+  /* Spacing Scale */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  
+  /* Border Radius - Material Design 3 */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+  
+  /* Z-Index Scale */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+}
+
+/* Theme-specific background patterns */
+.theme-luxury body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.02) 0%, transparent 50%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.01) 0%, transparent 100%);
+  z-index: -2;
+}
+
+.theme-google body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(26, 115, 232, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(103, 80, 164, 0.02) 0%, transparent 50%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, transparent 100%);
+  z-index: -2;
+}
+
+/* Google Material Design 3 Component Styles */
+.theme-google .card {
+  background: var(--bg-surface);
+  border: 1px solid var(--bg-surface-container-high);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-google .card:hover {
+  background: var(--bg-surface-container);
+  border-color: var(--accent-primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.theme-google .card-elevated {
+  background: var(--bg-surface);
+  border: 1px solid var(--accent-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-lg);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-google .card-elevated:hover {
+  background: var(--bg-surface-container);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.theme-google .btn-primary {
+  background: var(--google-blue);
+  color: var(--text-on-primary);
+  border: none;
+  border-radius: 24px;
+  padding: 12px 24px;
+  font-weight: var(--font-weight-medium);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  position: relative;
+  overflow: hidden;
+  text-transform: none;
+  letter-spacing: 0.1px;
+  min-height: 40px;
+  font-family: var(--font-family);
+}
+
+.theme-google .btn-primary:hover {
+  background: var(--google-blue-hover);
+  box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+  transform: translateY(-1px);
+}
+
+.theme-google .btn-primary:active {
+  background: var(--google-blue-hover);
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  transform: translateY(0);
+}
+
+.theme-google .btn-primary:focus {
+  outline: 2px solid var(--accent-primary-container);
+  outline-offset: 2px;
+}
+
+.theme-google .btn-secondary {
+  background: var(--bg-surface);
+  color: var(--accent-primary);
+  border: 1px solid var(--bg-surface-container-high);
+  border-radius: 24px;
+  padding: 12px 24px;
+  font-weight: var(--font-weight-medium);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  position: relative;
+  text-transform: none;
+  letter-spacing: 0.1px;
+  min-height: 40px;
+  font-family: var(--font-family);
+}
+
+.theme-google .btn-secondary:hover {
+  background: var(--bg-surface-container);
+  border-color: var(--accent-primary);
+  box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+  transform: translateY(-1px);
+}
+
+.theme-google .btn-secondary:focus {
+  outline: 2px solid var(--accent-primary-container);
+  outline-offset: 2px;
+}
+
+.theme-google .input {
+  background: var(--bg-surface);
+  border: 1px solid var(--bg-surface-container-high);
+  border-radius: 24px;
+  color: var(--text-primary);
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: var(--font-weight-normal);
+  transition: all var(--transition-fast);
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  width: 100%;
+  min-height: 40px;
+  font-family: var(--font-family);
+}
+
+.theme-google .input:focus {
+  background: var(--bg-surface);
+  border-color: var(--google-blue);
+  box-shadow: 0 0 0 2px var(--google-blue-light);
+  outline: none;
+  transform: none;
+}
+
+.theme-google .input::placeholder {
+  color: var(--text-tertiary);
+  font-weight: var(--font-weight-normal);
+}
+
+.theme-google .surface {
+  background: var(--bg-surface-container);
+  border: 1px solid var(--bg-surface-container-high);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-lg);
+  transition: all var(--transition-normal);
+}
+
+.theme-google .surface:hover {
+  background: var(--bg-surface-container-high);
+  border-color: var(--accent-primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* Google Material Design 3 Typography */
+.theme-google h1 {
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-bold);
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  line-height: 1.2;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.theme-google h2 {
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-semibold);
+  font-size: clamp(1.5rem, 4vw, 1.75rem);
+  line-height: 1.3;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.theme-google h3 {
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-medium);
+  font-size: clamp(1.2rem, 3vw, 1.25rem);
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+.theme-google p {
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-normal);
+  font-size: clamp(1rem, 2.5vw, 1rem);
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* Google Material Design 3 Animations */
+@keyframes googleFadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(8px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes googleSlideIn {
+  from { 
+    transform: translateX(-16px); 
+    opacity: 0;
+  }
+  to { 
+    transform: translateX(0); 
+    opacity: 1;
+  }
+}
+
+@keyframes googleScaleIn {
+  from { 
+    transform: scale(0.95); 
+    opacity: 0;
+  }
+  to { 
+    transform: scale(1); 
+    opacity: 1;
+  }
+}
+
+.theme-google .fade-in {
+  animation: googleFadeIn 0.2s ease-out;
+}
+
+.theme-google .slide-in {
+  animation: googleSlideIn 0.2s ease-out;
+}
+
+.theme-google .scale-in {
+  animation: googleScaleIn 0.2s ease-out;
+}
+
+/* Google Material Design 3 Focus States */
+.theme-google :focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--accent-primary-container);
+}
+
+/* Google Material Design 3 Ripple Effect */
+.theme-google .btn-primary::before,
+.theme-google .btn-secondary::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.theme-google .btn-primary:active::before,
+.theme-google .btn-secondary:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Google Material Design 3 Loading States */
+.theme-google .loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-google .loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: googleShimmer 1.5s infinite;
+}
+
+@keyframes googleShimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}

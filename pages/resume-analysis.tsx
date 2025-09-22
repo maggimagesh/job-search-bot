@@ -1,22 +1,29 @@
 import dynamic from 'next/dynamic';
+import { useTheme } from '../contexts/ThemeContext';
+import ThemeToggle from '../Components/ThemeToggle';
+
 const ResumeUploadAnalyzer = dynamic(
   () => import('../Components/ResumeUploadAnalyzer'),
   { ssr: false }
 );
 
 export default function ResumeAnalysisPage() {
+  const { theme } = useTheme();
+  
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: 'var(--bg-primary)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: 'var(--space-3xl) var(--space-lg)',
-        fontFamily: 'Inter, sans-serif',
-      }}
-    >
+    <div className={`theme-${theme}`}>
+      <ThemeToggle />
+      <div
+        style={{
+          minHeight: '100vh',
+          background: 'var(--bg-primary)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding: 'var(--space-3xl) var(--space-lg)',
+          fontFamily: 'var(--font-family)',
+        }}
+      >
       <div style={{ textAlign: 'center', marginBottom: 'var(--space-2xl)' }}>
         <div
           className="surface"
@@ -37,15 +44,18 @@ export default function ResumeAnalysisPage() {
         </div>
         <h1 style={{
           fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
-          fontWeight: '900',
+          fontWeight: theme === 'google' ? 'var(--font-weight-bold)' : '900',
           margin: '0 0 var(--space-md)',
-          letterSpacing: '-0.02em',
+          letterSpacing: theme === 'google' ? '-0.02em' : '-0.02em',
           color: 'var(--text-primary)',
-          textShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
-          background: 'linear-gradient(135deg, #ffffff 0%, var(--accent-primary) 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
+          textShadow: theme === 'google' ? 'none' : '0 4px 20px rgba(0, 0, 0, 0.5)',
+          background: theme === 'google' 
+            ? 'none' 
+            : 'linear-gradient(135deg, #ffffff 0%, var(--accent-primary) 100%)',
+          WebkitBackgroundClip: theme === 'google' ? 'initial' : 'text',
+          WebkitTextFillColor: theme === 'google' ? 'var(--text-primary)' : 'transparent',
+          backgroundClip: theme === 'google' ? 'initial' : 'text',
+          fontFamily: 'var(--font-family)',
         }}>
           Resume Analysis
         </h1>
@@ -54,15 +64,17 @@ export default function ResumeAnalysisPage() {
           maxWidth: '700px',
           margin: '0 auto',
           color: 'var(--text-secondary)',
-          fontWeight: 400,
+          fontWeight: theme === 'google' ? 'var(--font-weight-normal)' : 400,
           lineHeight: 1.6,
-          letterSpacing: '0.3px',
+          letterSpacing: theme === 'google' ? '0.1px' : '0.3px',
+          fontFamily: 'var(--font-family)',
         }}>
           Upload your resume to get AI-powered insights and best matching jobs.
         </p>
       </div>
 
       <ResumeUploadAnalyzer />
+      </div>
     </div>
   );
 }
