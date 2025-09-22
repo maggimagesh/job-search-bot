@@ -31,7 +31,6 @@ async function getDynamicPortals(role: string, location: string): Promise<Portal
   const pplxApiKey = process.env.PPLX_API_KEY
   
   if (!pplxApiKey) {
-    console.log('No Perplexity API key found, using fallback portals')
     // Fallback to static portals if Perplexity AI is not configured
     return fallbackPortals.map(p => ({ 
       name: p.name, 
@@ -81,7 +80,6 @@ For a ${role} in ${location}, return 5-6 most relevant portals as a JSON array. 
 
     if (!response.ok) {
       console.error(`Perplexity AI API error: ${response.status} - ${response.statusText}`)
-      console.log('Falling back to static portals due to API error')
       // Return fallback portals instead of throwing error
       return fallbackPortals.map(p => ({ 
         name: p.name, 
@@ -149,7 +147,6 @@ For a ${role} in ${location}, return 5-6 most relevant portals as a JSON array. 
 
   } catch (error) {
     console.error('Error fetching dynamic portals:', error)
-    console.log('Using fallback portals due to error')
     // Return fallback portals on error
     return fallbackPortals.map(p => ({ 
       name: p.name, 

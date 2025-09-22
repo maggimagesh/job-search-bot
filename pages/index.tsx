@@ -21,8 +21,8 @@ export default function Home() {
     setLoading(true);
     try {
       const res = await fetch(`/api/jobs?role=${encodeURIComponent(role)}&location=${encodeURIComponent(location)}`);
-      const j = await res.json();
-      setData(j);
+      const data = await res.json();
+      setData(data);
     } catch (err) {
       setData({ error: 'Failed to fetch' });
     } finally {

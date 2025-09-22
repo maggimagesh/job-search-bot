@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { ThemeProvider } from '../contexts/ThemeContext';
+import JobChatBot from '../Components/JobChatBot';
 import '../styles/globals.css';
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -38,6 +39,7 @@ export default function App({ Component, pageProps }: AppProps) {
       </a>
       
       <Component {...pageProps} />
+      <JobChatBot />
     </ThemeProvider>
   );
 }
